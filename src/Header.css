@@ -1,0 +1,132 @@
+* {box-sizing:border-box;}
+.cartHolder{
+    float: right;
+    margin-right: 3%;
+    margin-top: 2%;
+}
+.cartHolder span.cartNum{
+    background: #e32726;
+    color: white;
+    padding: 3px 8px;
+    font-size: 14px;
+    border-radius: 2px;
+}
+#cartDetailPage{
+    width: 300px;
+    border: 1px solid #d0d0d0;
+    z-index: 4;
+    position: absolute;
+    right: 20px;
+    background: white;
+    padding: 0px 0px 20px 0px;
+    box-shadow: 3px 3px 5px #dfdfdf;
+   
+  }
+  #cartDetailPage .closeBtn{
+    text-align: right;
+    font-size: 25px;
+    padding-right: 9px;
+    background: #eeeeee;
+    padding-bottom: 5px;
+    cursor: pointer;
+   }
+  .cartDetail .cartTotal {
+      float: right;
+  }
+ .cardClicker{
+     cursor: pointer;
+     font-size: 17px;
+ }
+  .cartDetail div{
+    float: left;
+    font-size: 12px;
+  }
+  .checkoutAndPaypal, .cartDetail, .eachProduct{
+      clear: both;
+      padding: 10px 20px;
+      border-bottom: 1px solid #e7e7e7;
+  }
+  .checkoutAndPaypal .proceed{
+    background: red;
+    padding: 15px 15%;
+    border-radius: 4px;
+}
+.checkoutAndPaypal .paypal{
+    margin: 10px;
+}
+.checkoutAndPaypal .proceed a, .checkoutAndPaypal .paypal a{
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+.checkoutAndPaypal .paypal a{
+    background: #019cde;
+    padding: 10px 15px;
+    font-size: 15px;
+    border-radius: 4px;
+}
+.clearBoth{
+    clear: both;
+    /* padding: 10px; */
+    float: none !important;
+}
+.eachProduct{
+    font-size: 15px;
+}
+.qtyEditDelete div{
+    float: left;
+}
+.thumbnail{
+    width: 18%;
+    float: left;
+    margin-right: 2%;
+}
+.thumbnail img{
+    width: 100%;
+}
+.otherInfo{
+    width: 75%;
+    float: right;
+    text-align: left;
+}
+.otherInfo .clickText{
+     font-size: 12px;
+ }
+ .otherInfo .clickText p {
+    margin-block-start: 0px;
+    color: #006bb4;
+    font-weight: bold;
+ }
+ .otherInfo  .price{
+    margin-bottom: 13px;
+    font-size: 16px;
+}
+ .qty {
+     width: 30%
+ }
+ .qty span{
+     float: left;
+     width: 47%;
+     font-size: 12px;
+ }
+ .qty input{
+     float: left;
+     width: 47%;
+     text-align: center;
+ }
+ .qtyEditDelete .edit,  .qtyEditDelete .delete{
+     float: right;
+     margin-left: 5px;
+     font-size: 12px;
+ }
+.viewAndEdit{
+    padding-top: 10px;
+}
+.viewAndEdit a{
+    font-size: 14px;
+    /* padding-top: 14px; */
+}
+.fullHeaderPart .logOutClick{
+    cursor: pointer;
+    text-decoration: underline;
+}

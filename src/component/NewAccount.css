@@ -1,0 +1,22 @@
+.signUpPage div{
+    /*padding: 10px;*/
+}
+.signUpPage div input{
+    width: 30%;
+    padding: 6px;
+    margin: 10px;
+    border-radius: 4px;
+    border: 1px solid #dcdcdc;
+}
+.checkoutPage .items input.checkBoxSize, .checkBoxSize{
+    width: 20px !important;
+}
+h2.newAccountH2{
+    margin-left: 0%;
+}
+.newAccount .errorMessage{
+    color:red;
+}
+.newAccount .nextBtn a{
+    cursor: pointer
+}

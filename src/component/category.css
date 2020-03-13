@@ -1,0 +1,109 @@
+.category{
+    width: 100%;
+    margin: 20px 0px;
+}
+.category .Product{
+    width: 25%;
+    float:left;
+}
+.category .Product:hover{
+    
+}
+.category .Product a{
+    text-decoration: none;
+}
+.category .Product .smallDesc{
+    width: 80%;
+    text-align: center;
+    margin: 0 auto;
+    color: black;
+    text-decoration: none;
+}
+.category .Product .price{
+    color: red;
+    font-size: 18px;
+    text-decoration: none;
+}
+@media (max-width:600px){
+    .category .Product{
+        width: 50%;
+        float:left;
+    } 
+}
+.CategoryPage .featuredProducts .imagesHolder{
+    width: 75%;
+    float: left;
+}
+.CategoryPage .featuredProducts .leftMenu{
+    width: 21%;
+    float: left;
+    margin-top: -2px;
+}
+.leftMenu p{
+    font-size: 23px;
+    text-align: left;
+    margin-left: 10%;
+    padding: 4px 0px 7px 7px;
+    border-left: 5px solid #ff0000;
+    background: #efefef;
+}
+.menuHolder .cateItem{
+    text-align: left;
+    margin-left: 10%;
+    margin-top: 5px;
+}
+.leftMenu .menuHolder .cateItem{
+    font-size: 14px;
+    border-left: 5px solid #f1f1f1;
+    padding-left: 5px;
+}
+.leftMenu .menuHolder .cateItem a{
+    text-decoration: none;
+}
+.leftMenu .menuHolder .cateItem a:hover{
+    font-size: 16px;
+    background-color:red;
+    color:white;
+    padding: 0px 5px;
+    animation-name: yellowToRed;
+    animation-duration: 3s; 
+}
+
+@keyframes yellowToRed{
+    from {  background-color: yellow;}
+    to {  background-color: red;}
+  }
+
+.CategoryPage  .product .addToCart{
+    padding: 1% 15%;
+    margin-top: 5%;
+    display: none;
+}
+.CategoryPage  .product:hover .addToCart{
+    display: block;
+}
+.CategoryPage  .product:first-child, .CategoryPage  .product:nth-child(2), .CategoryPage  .product:nth-child(3), .CategoryPage  .product:nth-child(4){
+    margin: 21px 0px 53px 0px;
+    margin-left: 1.5%;
+}
+.CategoryPage .featuredProducts .product .name{
+    padding: 4px 1px;
+    margin: 20px;
+}
+.CategoryPage .featuredProducts .product .name img{
+    max-height: 147px;
+}
+.CategoryPage .imagesHolder div:nth-child(5), .CategoryPage .imagesHolder div:nth-child(9), 
+.CategoryPage .imagesHolder div:nth-child(13), .CategoryPage .imagesHolder div:nth-child(17), 
+.CategoryPage .imagesHolder div:nth-child(21), .CategoryPage .imagesHolder div:nth-child(25), 
+.CategoryPage .imagesHolder div:nth-child(29), .CategoryPage .imagesHolder div:nth-child(33), 
+.CategoryPage .imagesHolder div:nth-child(37), .CategoryPage .imagesHolder div:nth-child(41), 
+.CategoryPage .imagesHolder div:nth-child(45) {
+    clear: both;
+}
+.CategoryPage .imagesHolder .product .price{
+    font-weight: bold;
+}
+.CategoryPage .menuHolder{
+    margin-bottom: 50px;
+}

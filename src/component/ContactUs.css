@@ -1,0 +1,97 @@
+
+.checkoutPage{
+    clear: both;     
+    padding: initial;
+    border: 0px;
+    margin: 20px 0px;
+}
+.checkoutPage h3{
+    text-align: left;
+    margin-left: 2%;
+    margin-top: 30px;
+}
+.checkoutPage .items{
+    width: 55% !important;
+    float: left;
+    margin-left: 2%;
+    border-top: 1px solid #e7e7e7;
+}
+.checkoutPage .summary{
+    width: 25%;
+    float: right;
+    margin-right: 2%;
+    padding: 30px 20px;
+}
+.checkoutPage .summary div:first-child{
+    margin: 0px 0px 30px 0px;
+}
+.checkoutPage .image {
+    width: 30%;
+    float: left;
+}
+.checkoutPage .otherData {
+    width: 60%;
+    float: right;
+    text-align: left;
+    font-size: 12px;
+}
+.checkoutPage .otherData a{
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+    color: gray;
+}
+.checkoutPage .otherData .inputsPrice{
+    margin: 10px 0px;
+}
+.checkoutPage .image img{
+        width: 100%;
+}
+.checkoutPage .items {
+    text-align: left;
+}
+.checkoutPage .items .lableInput{
+    width: 100%;
+    margin: 18px 10px 10px 0px;
+}
+.checkoutPage .items input, .checkoutPage .items select{
+    width: 95% !important;
+    padding: 10px;
+    margin: 2px;
+    border: 1px solid #c5c4c4;
+}
+.checkoutPage .items .starik{
+    color: red;
+}
+.checkoutPage .items table.shippingMethod {
+    width: 100%;
+}
+.checkoutPage .items table.shippingMethod  td{
+    width: 20%;
+}
+.checkoutPage .items table.shippingMethod  input{
+    width: 10%;
+}
+.checkoutPage .items .lableShip .getInput{  
+    border-top: 1px solid #e7e7e7;
+    margin: 15px 0px;
+}
+.checkoutPage .items .lableShip p{
+    font-size: 24px;
+}
+.checkoutPage .items .lableShip .nextBtn a{
+    padding: 11px;
+    background: red;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    float: right;
+}
+.nextBtn a{
+    padding: 11px;
+    background: red;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    float: left;
+}

@@ -1,0 +1,94 @@
+h2{
+    text-align: left;
+    margin-left: 1.5%;
+}
+.items{
+    width: 65%;
+    float: left;
+    margin: 0px 2%;
+    font-size: 14px;
+}
+.items .headings{
+    font-size: 16px;
+    font-weight: bold;
+    color: #898989;
+}
+.items  table{
+    border-collapse: collapse;
+}
+.items table tr td{
+    vertical-align: top;
+}
+.items table td.item, .items table td.qty, .items table td.price, .items table td.subtotal{
+    width: 10%;
+}
+.items table td.description{
+    width: 58%;
+    text-align: left;
+    padding-left: 1%; 
+}
+.items table td.item img{
+    width: 100%;
+}
+.items table td input {
+    float: left;
+    width: 47%;
+    text-align: center;
+    padding: 5px;
+}
+.items .headings td{
+    padding: 10px;
+    border-bottom: 1px solid #d7d7d7;
+    text-align: left;
+}
+.items .products td{
+    padding-top: 10px;
+}
+.items .wishList{
+    padding: 20px 10px;
+    border-bottom: 1px solid #d7d7d7;
+    text-align: left;
+}
+.items .wishList td{
+    vertical-align: baseline;
+}
+.summary{
+    width: 25%;
+    float: right;
+    font-size: 14px;
+    background: #f5f5f5;
+    margin-right: 2%;
+    padding: 15px;
+    border-radius: 3px;
+}
+.summary div p{
+    text-align: left;
+    font-size: 25px;
+    font-weight: bold;
+    margin: 10px 0px;
+    border-bottom: 1px solid #d7d7d7;
+}
+.summary div table{
+    width: 100%;
+    text-align: left;
+    margin: 10px 0px;
+    border-collapse: collapse;
+}
+.summary div table td:first-child{
+    padding: 5px 0px;
+}
+.summary div table td:nth-child(2){
+    text-align: right;
+    padding: 5px 0px 10px 0px;
+}
+.summary div table tr:nth-child(3) td{
+    font-weight: bold;
+    border-top: 1px solid #d7d7d7;
+    padding: 10px 0px 5px 0px;
+}
+.summary .checkoutAndPaypal .proceed {
+    background: red;
+    padding: 15px 0%;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}

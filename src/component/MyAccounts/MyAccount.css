@@ -1,0 +1,89 @@
+.leftSideMenu{
+    width: 20%;
+    float: left;
+    font-size: 14px;
+    background: #f5f5f5;
+    margin: 20px 0px 20px 2%;
+    border-radius: 2px;
+}
+.leftSideMenu .myAccountLinks{
+    padding: 20px 0px;
+}
+.leftSideMenu .myAccountLinks a{
+    /* width: 100%; */
+    display: block;
+    text-align: left;
+    font-size: 13px;
+    padding: 10px 0px 10px 10px;
+    text-decoration: none;
+    color: black;
+}
+.leftSideMenu .contactInfo{
+    float: left;
+}
+.leftSideMenu .newsLetter{
+    float: right;
+    font-size: 13px;
+}
+.leftSideMenu hr{
+    border: 0.5px solid #e6e6e6;
+    clear: both;
+    width: 93%;
+    margin: 15px auto;
+}
+.leftSideMenu .myAccountLinks a:hover, .leftSideMenu .myAccountLinks a.active{
+    background: #d9d9d9;
+    border-left: 5px solid red; 
+    padding-left: 10px;
+} 
+.rightSidePaging{
+    float: right;
+    margin-right: 2%;
+    width: 73%;
+    text-align: left;
+}
+.rightSidePaging h2{
+    margin-left: 0px;
+}
+.rightSidePaging p{
+    margin: 0px;
+    padding: 0px;
+}
+.rightSidePaging .contactInfo{
+    float: left;
+    width: 60%;
+}
+.rightSidePaging .newsLetter{
+    float: right;
+    width: 35%;
+}
+.rightSidePaging .headAccInfo{
+    font-size: 22px;
+}
+.rightSidePaging hr{
+    border: 0.5px solid #e6e6e6;
+    clear: both;
+}
+.rightSidePaging br{
+    clear: both;
+}
+.rightSidePaging .newsLetter p:first-child, .rightSidePaging .contactInfo p:first-child{
+    margin-bottom: 10px;
+    font-size: 15px;
+    font-weight: bold;
+}
+.rightSidePaging  p{
+    margin: 10px 0px;
+}
+.rightSidePaging  a{
+    margin-right: 10px;
+    color: #006bb4;
+    font-size: 12px;
+}
+.rightSidePaging .contactInfo a:nth-child(2){
+    margin-left: 10px;
+}
+
+.myAccountPage {
+    margin-top: 40px;
+}

@@ -1,0 +1,11 @@
+.vrEx{
+    z-index: 10;
+}
+.Footer{
+    z-index: 0;
+}
+ 
+
+html.a-fullscreen .a-canvas {
+    position: relative !important;
+}

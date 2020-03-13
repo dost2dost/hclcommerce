@@ -1,0 +1,79 @@
+.productPage {
+    width: 100%;
+}
+.productPage .imagePortion{
+    width: 42%;
+    float: left;
+    padding: 30px 0px;
+    padding-left: 10%;
+}
+.productPage .imagePortion .subImages{
+    float: right;
+    margin: 10px;
+}
+.productPage .imagePortion .subImages img{
+    width: 100px;
+    float: left;
+    padding: 5px;
+    border:1px solid gray;
+    margin: 1px;
+    cursor:  pointer;
+}
+.productPage .txtDescription{
+    width: 40%;
+    float: left;
+    text-align: left;
+    margin-left: 20px;
+    margin-top: 30px;
+}
+.productPage .txtDescription div{
+    margin-bottom:5px
+}
+.productPage .txtDescription .price{
+    font-size: 35px;
+    text-align: left;
+}
+.productPage .txtDescription .description {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: left;
+}
+.productPage .mainImage img{
+    width: 100%;
+}
+.quanty .qtyIn input{
+        width: 50px;
+        height: 25px;
+        text-align: center;
+}
+.add2Cart .add2CartDiv input{
+    width: 300px;
+    height: 60px;
+    background-color: #c00000;
+    color: white;
+    border: 1px solid #c00000;
+    font-size: 26px;
+    cursor: pointer;
+    border-left: 10px solid black;
+}
+.vrLink, .arLink{
+    margin-right: 10px;
+    color: red;
+    padding-left: 10px;
+    background: #b2b3b5;
+    color: white;
+    padding: 7px 10px;
+    text-decoration: none;
+    border-left: 8px solid black;
+    font-size: 15px;
+    margin-left: 10px;
+    border-radius: 6px;
+}
+.arLink{
+    background: #7d9cc7;
+    border-left: 8px solid #0a1d82;
+}
+ .vrAr{
+    background: #f7f8f9;
+    padding: 15px 0px;
+}

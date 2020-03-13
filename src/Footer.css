@@ -1,0 +1,64 @@
+.App .Footer{
+    clear: both;
+  }
+  .App .footerRedPortion{
+    background-color: #e32726 !important;
+    min-height: 50px;
+    width: 100%;
+    padding: 30px 0px;
+  }
+  .App .footerRedPortion p{
+      padding-top: 12px ;
+  }
+  .App .footerRedPortion a{
+    color: white;
+    padding: 5px 17px;
+    text-decoration: none;
+  }
+  .App .infoBasic .PriceMatch, .App .infoBasic .freeShip, .App .infoBasic .Installations{
+    width: 33%;
+    float: left;
+    font-size: 12px;
+  }
+  .App .grayPortion{
+    background-color: #f3f3f5;
+    clear: both;
+    padding: 10px 0px 50px 0px;
+  }
+.Footer .grayPortion input{
+    border: 3px solid #e32726;
+    border-radius: 0;
+    padding: 10px;
+    width: 23%;
+    }
+.Footer .grayPortion a{
+        padding: 7.5px 9px 9px 9px;
+        background: #e32726;
+        color: white;
+        text-decoration: none;
+        border: 3px solid #e32726;
+    }
+.Footer hr{
+    border: 0.1px solid #cacaca
+}
+.Footer .facebook, .Footer .twiter, .Footer .instagram, .Footer .googleplus{
+  display: inline-block;
+  width: 44px;
+  padding: 10px 0;
+  background-image: url(https://www.circuitcity.com/pub/static/version1574965235/frontend/CC/CircuitCity/en_US/images/rwdUI.png);
+  text-decoration: none !important;
+  background-position: -46px -155px;
+}
+.Footer .twiter{
+  background-position: -2px -155px;
+}
+.Footer .instagram{
+  background-position: -178px -155px;
+}
+.Footer .googleplus{
+  background-position: -222px -155px;
+}
+.footerMain .connect {
+  border-bottom: 1px solid #e7e7e7;
+  padding-bottom: 23px;
+}
