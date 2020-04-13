@@ -5,7 +5,7 @@ const appState ={
 }
 
 const appSettings = (getAppState = appState, action) =>{
-    console.log(action);
+    //console.log(action);
      
     return getAppState;
 }

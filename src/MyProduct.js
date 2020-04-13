@@ -2,7 +2,8 @@ import React, {Component}  from 'react';
 import ReactDOM from 'react-dom';
 import './product.css';
 import VRex from './component/VREx';
-
+import ProdSkeleton from './Skeleton/ProductSkeleton'
+import ShoppingCart from './component/ShoppingCart'
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom'; 
 class MyProduct extends Component{
     constructor(props){
@@ -12,18 +13,19 @@ class MyProduct extends Component{
             quntity: '1',
             items: [],
             isLoaded: false,
+            callAPI: false
         }
     }
     getSearch = (event) =>{
         this.setState ({quntity : event.target.value});
     }
     componentDidMount(props){
-        
+        this.setState ({
+            isLoaded: false,
+        })
          const { handle } = this.props.location.search;
-        console.log(this.props.location.search.substring(1.1) +"<ddd>");
-        //var getNewUrl = 'https://jsonplaceholder.typicode.com/photos/?id='+this.props.location.search.substring(1.1);
-        //console.log(getNewUrl);
-        fetch('http://192.168.7.167/wcs/resources/store/11901/productview/byId/'+this.props.location.search.substring(1.1))
+        
+        fetch('https://192.168.17.91:5443/wcs/resources/store/1/productview/byId/'+this.props.location.search.substring(1.1))
         .then( res => res.json())
         .then( json => {
             this.setState ({
@@ -32,25 +34,30 @@ class MyProduct extends Component{
             })
         }).catch(e => console.log(e)); 
     }
+    AddToCart = (event) => {
+        console.log(this.state.items.CatalogEntryView[0].uniqueID)
+        //let getId = '';//this.state.items.CatalogEntryView[0].uniqueID;
+        this.setState({callAPI: true})
+    }
     render(){
         var { isLoaded, items } =this.state;
-        if(!isLoaded){
-            return <div><img width="300" height="200" src="/Images/loader.gif"/></div>
-        }
-        else{
-        console.log(this.props);
         const getParams = this.props.location.search; 
-        //console.log(getParams.substring(1.1));
-        //console.log(props);
+        let shopCart = ('sleocm');
+        if(this.state.callAPI){
+            shopCart = (<ShoppingCart callAPI={this.state.items.CatalogEntryView[0].uniqueID} />);
+            console.log('this is called')
+        }
         return(
             <div className="productPage">
-                {[items].map((item, index) => (
+                <div>{shopCart}</div>
+                {!this.state.isLoaded ? <ProdSkeleton /> : 
+                [items].map((item, index) => (
                     <div  key={item.recordSetTotal}>
                         {item.CatalogEntryView.map(insideItems => (
                             <div className="product" key={insideItems.uniqueID}>
                                 <div className="imagePortion">
                                     
-                                    <div className="mainImage"><img src={insideItems.thumbnail}/></div>
+                                    <div className="mainImage"><img src={`https://192.168.17.91:8443${insideItems.thumbnail}`}/></div>
                                     {/* <div className="subImages"><img src={`${item.thumbnailUrl}`}/><img src={`${item.thumbnailUrl}`}/><img src={`${item.thumbnailUrl}`}/><img src={`${item.thumbnailUrl}`}/></div> */}
                                     </div>
                                 <div className="txtDescription">
@@ -59,7 +66,7 @@ class MyProduct extends Component{
                                     <Link  className="arLink" to={`/VRex`} >AR Access</Link>
                                 </div>
                                 <div className="description">
-                                    {insideItems.shortDescription===undefined ? ' ' : insideItems.shortDescription}
+                                    {insideItems.longDescription===undefined ? ' ' : insideItems.longDescription}
                                 </div>
                                     <div className="priceDetail"> 
                                         <div className="price">
@@ -72,7 +79,7 @@ class MyProduct extends Component{
                                         <div className="qtyIn"><input type="text" placeholder="1" value={this.state.search} onChange={this.getSearch}/></div>
                                     </div>
                                     <div className="add2Cart"> 
-                                        <div className="add2CartDiv"><input type="button" value="Add to Cart"/></div>
+                                        <div className="add2CartDiv"><input onClick={this.AddToCart} type="button" value="Add to Cart"/></div>
                                     </div>
                                 </div>
                             </div>
@@ -83,6 +90,6 @@ class MyProduct extends Component{
             </div>
         )
         }
-    }
+    //}
 }
 export default MyProduct;

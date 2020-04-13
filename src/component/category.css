@@ -37,7 +37,7 @@
 .CategoryPage .featuredProducts .leftMenu{
     width: 21%;
     float: left;
-    margin-top: -2px;
+    margin-top: 21px;
 }
 .leftMenu p{
     font-size: 23px;
@@ -91,7 +91,7 @@
     margin: 20px;
 }
 .CategoryPage .featuredProducts .product .name img{
-    max-height: 147px;
+    /* max-height: 147px; */
 }
 .CategoryPage .imagesHolder div:nth-child(5), .CategoryPage .imagesHolder div:nth-child(9), 
 .CategoryPage .imagesHolder div:nth-child(13), .CategoryPage .imagesHolder div:nth-child(17), 

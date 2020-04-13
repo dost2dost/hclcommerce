@@ -1,5 +1,6 @@
 import React from 'react'; 
 import './App.css';
+import './bootstrap.min.css';
 
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import Header from './Header';
@@ -33,6 +34,7 @@ function App(props) {
       <header className="App-header">
        <Header />
       </header>
+      <section>
       <div className="MidBody">
           <Switch>
             <Route exact path="/"  component={Home}/>  
@@ -55,6 +57,7 @@ function App(props) {
             <Route path="/MyAccountMenu" component={MyAccountMenu}/> 
             </Switch>
       </div>
+      </section>
       <div className="Footer" id="mainFooter">
         <Footer/>
       </div>

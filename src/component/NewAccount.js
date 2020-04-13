@@ -45,7 +45,7 @@ class NewAccount extends Component{
             logonPasswordVerify: this.state.confirmPassword, //"Revert!23d"
             logonId: this.state.email 
         }
-        fetch('https://192.168.7.167/wcs/resources/store/11901/person',{
+        fetch('https://192.168.17.91:5443/wcs/resources/store/1/person',{
             method: 'POST',
             headers: {
                 'accept': 'application/json',

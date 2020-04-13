@@ -1,0 +1,80 @@
+.skeleton{
+    height: 300px;
+    width: 23%;
+    border: 1px solid #e9e9e9; 
+    padding: 20px;
+    margin: 21px 0px 53px 0px;
+    margin-left: 1.5%;
+    float:left
+    
+}
+.imageSkl{
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(270deg, #f3f3f3, #fcfbfb);
+	background-size: 500% 500%;
+	-webkit-animation: Gradient 2s ease infinite;
+	-moz-animation: Gradient 2s ease infinite;
+	animation: Gradient 2s ease infinite;
+}
+.txtSkl div{
+    width: 100%;
+    height: 20px;
+    background-color: #f3f3f3;
+    margin: 10px 0px;
+    background: linear-gradient(270deg, #ffffff, #f3f3f3);
+	background-size: 500% 500%;
+	-webkit-animation: Gradient 1s ease infinite;
+	-moz-animation: Gradient 1s ease infinite;
+	animation: Gradient 1s ease infinite;
+}
+.txtSkl div:nth-child(2){
+    width: 20%;
+}
+
+@-webkit-keyframes Gradient {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@-moz-keyframes Gradient {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@keyframes Gradient { 
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+
+.productPage {
+    margin-left: 10% !important;
+    width: 90% !important;
+}
+.productPage .skeleton{
+    border: 0px !important ;
+    width: 80% !important;
+    margin-left: 10%;
+    
+}
+.productPage .imageSkl{
+    height: 300px;
+    float: left;
+    width: 32% !important
+}
+.productPage .txtSkl{
+    height: 400px;
+    float: left;
+    width: 40%;
+    margin-left: 5%;
+}
+.productPage .txtSkl div:nth-child(2){ 
+    width: 80%;
+}
+.productPage .txtSkl div:nth-child(3){
+    width: 40%
+}
+.productPage .txtSkl div:nth-child(4), .productPage .txtSkl div:nth-child(5){ 
+    width: 40%;
+}

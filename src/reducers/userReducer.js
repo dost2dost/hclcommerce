@@ -1,6 +1,7 @@
 const iState ={
     userId: '',
     email:  '',
+    resourceName : '',
     braintreeToken: '',
     WCToken: '',
     WCTrustedToken: '',
@@ -13,6 +14,7 @@ const userReducer = (state = iState, action) =>{
         return{
             ...state,
             email: action.payloads.email,
+            resourceName: action.payloads.resourceName,
             userId: action.payloads.userId,
             braintreeToken: action.payloads.braintreeToken,
             WCToken: action.payloads.tokn,
@@ -21,5 +23,7 @@ const userReducer = (state = iState, action) =>{
         }
     }
     return state;
+    
 }
+
 export default userReducer;

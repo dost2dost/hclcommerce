@@ -130,76 +130,38 @@
     cursor: pointer;
     text-decoration: underline;
 }
-.fullHeaderPart .menuHolder .parentUL{
-    width: 650px !important;
-    position: absolute;
-    margin-top: 52px !important;
-    z-index: 1;
-    background: white;
-    padding: 10px 8px;
+
+.fullHeaderPart .logo img{
+    max-width: 55px;
 }
-.fullHeaderPart .menuHolder .parentUL li{
-    width: 33%;
-    display: inline-block;
-    vertical-align: top;
-    float: left;
-}
-.fullHeaderPart .menuHolder .parentUL li .childUL{
-    width: auto;
-    position: relative !important;
-    border: 0px;
-    box-shadow: 0px 0px 0px;
-}
-.fullHeaderPart .menuHolder .parentUL li .childUL li{
-    display: inline;
-    display: inline-block;
-    width: 100%;
-}
-.fullHeaderPart .menuHolder .cateItem a{
-    cursor: pointer;
-     
-    padding: 10px 10px 20px 5px;
-}
-.fullHeaderPart .menuHolder .cateItem a:hover{
-    border-bottom: 5px solid red;   
-    border-spacing: 15px; 
-}
-.fullHeaderPart .menuHolder .cateItem a:focus{
-    border-bottom: 5px solid red;   
-    border-spacing: 15px; 
-}
-.App .fullHeaderPart .mainMenu .parentItem{
-    width: 100%;
-    font-weight: bold;
-    border-bottom: 1px solid gray;
-    margin-bottom: 20px;
-}
-.showMenu{
-    transition: all 0.9s ease-out;
-}
-.openMenu{
-    opacity: 1;
-    transform: translateY(0%);   
-}
-.closeMenu{
-    opacity: 0;
-    transform: translateY(-100%);
-}
-.autoSuggest{
-    background: #fafafa;
-    margin-top: 46px;
-    z-index: 2;
-    position: absolute;
-    width: 51.7%;
-    box-shadow: 0px 2px 2px #d7d6d6;
-}
-.autoSuggest ul li{
-    display: block;
-    clear: both;
-}
-.autoSuggest ul li a{
-    margin: 7px 12px;
-    float: left;
-    color: #0d0606;
+.fullHeaderPart .searchLink input{
+    border-radius: 5px;
+    border: 2px solid #007bff;
+    padding: 10px 5px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
     font-size: 14px;
+}
+.fullHeaderPart .searchLink .col-sm-2{
+    max-width: 8% !important;
+    flex: 0 0 8%
+}
+.fullHeaderPart .searchLink a{
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.fullHeaderPart .dealOfDay {
+    text-align: right;
+}
+.fullHeaderPart .dealOfDay .deal{
+    color: #007bff;
+    font-size: 14px;
+    margin-bottom: -3px;
+    font-weight: bold;
+    margin-top: 3px;
+}
+.fullHeaderPart .dealOfDay .saveOffer{
+    color: black;
+    font-size: 11px;
 }

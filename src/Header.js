@@ -4,24 +4,43 @@ import {Link, Redirect} from 'react-router-dom';
 import HeadMenu from './component/HeadMenu';
 import {connect} from 'react-redux';
 import {logOutUser} from './component/LogOut';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import ShoppingCart from './component/ShoppingCart'
 import './Header.css';
 class Header extends Component{
     constructor(props){
         super(props);
-        this.state = {search : "Search entire store here...",  showProductItems : false, cssShowHide: 'none', logOutCall: false};
+        this.state = {search : "What we can help you find?",  showProductItems : false, cssShowHide: 'none', 
+        logOutCall: false, 
+        searchItems: [],
+        searchStart: false
+        };
        }
        getSearch = (event) =>{
            this.setState ({search : event.target.value});
-       }
-       showHideCart = (event) => { 
-        this.setState({
-            showProductItems: !this.state.showProductItems
-        });
-            console.log(this.hideAtStart);
-       }
+           let searchWord = ''
+           if(event.target.value.length > 1){
+               searchWord = event.target.value
+               let getUrl = `http://192.168.17.91:3737/search/resources/store/1/sitecontent/keywordSuggestionsByTerm/${searchWord}?pageSize=4`
+               //`https://192.168.17.91:5443/wcs/resources/store/1/categoryview/byParentCategory/5`  
+               console.log(getUrl)
+               fetch(getUrl) 
+               .then(res => res.json(   ))
+               .then(json => {
+                   this.setState({
+                       searchItems: json,
+                       searchStart: true
+                   })
+                   console.log(this.state.searchItems.suggestionView[0].entry[0].term)
+               }).catch(e => console.log(e));
+            } 
+            else{this.setState({searchStart: false, searchItems: []})}
+           
+       }      
       
        logOutUser = (event) => {// call this function on logOut button
-        fetch('https://192.168.7.167/wcs/resources/store/11901/loginidentity/@self',{
+        fetch('https://192.168.17.91:5443/wcs/resources/store/11901/loginidentity/@self',{
             method: 'DELETE' 
         });
         this.setState({
@@ -31,18 +50,32 @@ class Header extends Component{
             password: ''
            // errorMsg: data.errors[0].errorMessage
         });
-        this.props.loginUser('', '', '', '', '', ''); //removing data from Redux-Reducer
+        this.props.loginUser('', '', '', '', '', '', ''); //removing data from Redux-Reducer
         this.setState({startLoading: false});
        // this.props.history.push("/");
         }
+        showCart = (event) => {
+            console.log(this.state.showProductItems+"set")
+         this.setState({
+             showProductItems: true //!this.state.showProductItems
+         });
+             // console.log(this.hideAtStart);
+        }
     render(){
+        let shopCart = '' //'cart here'
+        console.log(this.state.showProductItems+'showproduct')
+        if(this.state.showProductItems){ 
+            shopCart = (<ShoppingCart showPopup={'show'} />);
+            //this.setState({showProductItems: false})
+            console.log(shopCart+'shopCart')
+        }
         if(this.state.logOutCall){
             return <Redirect to="/logOutUser"/>
         } 
          const {showProductItems} = this.state;
-         console.log(this.props.getTocken+":Token");
+         //console.log(this.props.getTocken+":Token");
          let signBtn, createAccBtn, myAccBtn;
-         console.log(this.props.getTocken);
+        //  console.log(this.props.getResourceName+"-----------------<");
          if(this.props.getTocken === ''){
            signBtn =  <Link to="/signin">Sign In</Link>; 
            createAccBtn = <Link to="/NewAccount"> Create an Account</Link>;
@@ -50,9 +83,10 @@ class Header extends Component{
          }
          else {
              myAccBtn = <Link to="/MyAccount"> My Account</Link>;
-             signBtn =  <a class="logOutClick" onClick={this.logOutUser}>Log Out</a>; 
+             signBtn =  <a className="logOutClick" onClick={this.logOutUser}>Log Out</a>; 
          }
          let completSet = signBtn + ' OR';
+         //console.log(this.state.searchItems.suggestionView)
     return(
         <div className="fullHeaderPart">
         <div className="topHeader">
@@ -65,7 +99,6 @@ class Header extends Component{
                 </div>
             </div>
             <div className="signIn">
-                
                  {signBtn}  
                  &nbsp; | {createAccBtn} 
                  {myAccBtn}
@@ -76,55 +109,19 @@ class Header extends Component{
             <div className="logo"> <Link to="/" ><img alt="Circuit City" src="http://localhost:3000/Images/logo_2.png" /></Link></div>
             <div className="searchInput">
                 <input type="text" placeholder={this.state.search} onChange={this.getSearch} />
-                <a href="">Search</a>
+                <a className="searchBtn" href="">Search</a>
+            <div className="autoSuggest">{
+                this.state.searchStart ? <ul> {this.state.searchItems.suggestionView[0].entry.map(srch => (
+                        <li key={srch.frequency}><Link to={`lk`}>{srch.term}</Link></li>
+                    ))}</ul>
+                    : null
+            }</div>
             </div>
             <div className="cartHolder">
-                <a className="cardClicker" onClick={this.showHideCart}>Cart <span className="cartNum">1</span></a>
-                {showProductItems === true ? <div   id="cartDetailPage" name="cartDetailPage">
-                    <div className="closeBtn"  onClick={this.showHideCart}>
-                        x
-                    </div>
-                    <div className="cartDetail">
-                        <div className="cartItems">
-                            <span>1 <span className="itemInCart"></span> in Cart</span>
-                        </div>
-                        <div className="cartTotal">
-                            <span>Cart Subtotal: <span className="cartSubTotal"></span>1</span>
-                        </div>
-                        <div className="clearBoth"></div>
-                    </div>
-                    <div className="checkoutAndPaypal">
-                        <div className="proceed">
-                        <Link to="/Checkout">Proceed to Checkout</Link>
-                        </div>
-                        <div className="paypal">
-                            <a href="#">PayPal</a>
-                        </div>
-                    </div>
-                    <div className="eachProduct" >
-                        <div className="thumbnail"><img src="/Images/1.jpg" /> </div>
-                        <div className="otherInfo">
-                            <div className="clickText"><p>
-                                        ASUS VivoBook F512DA 15.6" Ultraslim Laptop - AMD Ryzen 5 3500U, 8GB RAM, 512GB SSD, Windows 10, McAfee 1-Year
-                                </p></div>
-                            <div className="price">$250.00</div>
-                            <div className="qtyEditDelete">
-                                <div className="qty">
-                                    <span>Qty:</span>
-                                    <input type="text" placeholder="1"/>
-                                </div>
-                                <div className="edit"><a href="#">Edit </a></div>
-                                <div className="delete"><a href="#"> Delete</a></div>
-                                <div className="clearBoth"></div>
-                            </div>
-                        </div>
-                        <div className="clearBoth"></div>
-                    </div>
-                    <div className="viewAndEdit"><Link to="/CartPage">View and Edit Cart</Link></div>
-                </div> : ''}
-                
+                <a className="cardClicker" onClick={this.showCart}>Cart <span className="cartNum">1</span></a>
+            {shopCart}
             </div>
-            <div className="shipCart"></div>
+            {/* <div className="shipCart" onClick={this.showHideCart}></div> */}
         </div>
         <div className="mainMenu">
            <HeadMenu />
@@ -135,15 +132,16 @@ class Header extends Component{
 };
 const mapStateToProps = (state) =>{
     return {
-        getTocken: state.WCToken
+        getTocken: state.WCToken,
+        getResourceName: state.resourceName
     }
 };
 
 const mapDispatchToProps = (dispatch) =>{
     return{
-       loginUser: (email, braintreeToken, tokn, userId, WCTrustedToken, personalizationID ) => {
+       loginUser: (email, resourceName, braintreeToken, tokn, userId, WCTrustedToken, personalizationID ) => {
            dispatch({
-                   type: 'LOGED_USER', payloads: {email, braintreeToken,  tokn, userId, WCTrustedToken, personalizationID}
+                   type: 'LOGED_USER', payloads: {email, resourceName, braintreeToken,  tokn, userId, WCTrustedToken, personalizationID}
                })
        }
        // ,

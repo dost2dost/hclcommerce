@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import LeftMenu from './LeftMenu';
 import queryString from 'querystring'
 import './category.css';
-
+import Skeleton from '../Skeleton/Skeleton'
 class SubCategory extends Component{
     constructor(props){
         super(props);
@@ -13,71 +13,87 @@ class SubCategory extends Component{
             items: [],
             isLoaded: false,
             categoryCalled: '', 
-            loaderActive: '<span></span>'
+            loaderActive: true,
+            subCat: ''
         }
     }
     componentDidUpdate(props){ 
-         if(this.props.callCat != this.state.categoryCalled){
+        console.log(this.props.callCat.categoryCall+"<<subCategoryPage")
+        console.log("subCategoryPage >>"+this.props.callCat.subcat)
+         if(this.props.callCat.categoryCall != this.state.categoryCalled){            
+            this.getDataFromServer(this.props.callCat.categoryCall);
             
-            this.getDataFromServer(this.props.callCat);
             this.setState({
-                categoryCalled: this.props.callCat
+                categoryCalled: this.props.callCat.categoryCall,
+                loaderActive: true
             })
           }
          
     }
     componentDidMount(props){
         this.setState({
-            categoryCalled: this.props.callCat
+            categoryCalled: this.props.callCat.categoryCall
         }) 
-        this.getDataFromServer(this.props.callCat);  
+        this.getDataFromServer(this.props.callCat.categoryCall);  
     } 
     getDataFromServer = (getCat) => { 
+        
         this.setState({loaderActive:'<div><img width="300" height="200" src="/Images/loader.gif"/></div>'}) 
-        let getUrl = `http://192.168.7.167/wcs/resources/store/11901/customProductview/byCategory/${getCat}` 
+        let getUrl = `https://192.168.17.91:5443/wcs/resources/store/1/productview/byCategory/${getCat}`
+        //`https://192.168.17.91:5443/wcs/resources/store/1/categoryview/byParentCategory/5`  
         fetch(getUrl) 
-        .then(res => res.json())
+        .then(res => res.json(
+            
+        ))
         .then(json => {
+            
             this.setState({
                 isLoaded: true,
-                items: json 
+                items: json,
+                loaderActive: false 
             })
         }).catch(e => console.log(e));
         this.setState({loaderActive:''}) 
+        
+    }
+    addToCartHandler(id){
+        console.log(id+'id inside ');
     }
     render(){
         var { isLoaded, items } = this.state;
         if(!isLoaded){
-            return <div><img width="300" height="200" src="/Images/loader.gif"/></div>
+            return <Skeleton />
         }
         else{ 
             return(
-                <div>
-                    {this.state.loaderActive}
-                    {[items].map(item => (
-                        <div  key={item.recordSetTotal}> 
-                        {item.catalogEntryView.map(insideItems => (
+                <>
+                {this.state.loaderActive ? <Skeleton /> :                    
+                    [items].map(item => (
+                        <div  key={item.recordSetCount} > 
+                        {item.CatalogEntryView.map(insideItems => (
                             //if(item.recordSetTotal>1){
                             <div className="product" key={insideItems.uniqueID}>
                                 <div className="name">
                                 <Link to={`/Product/?${insideItems.uniqueID}`}>
-                                    <div className="name"><img alt = {insideItems.name} src={insideItems.thumbnail} /></div>
+                                    <div className="name"><img alt = {insideItems.name} src={`https://192.168.17.91:8443${insideItems.thumbnail}`} /></div>
                                 </Link>
                                 </div>
                                 <div className="person">{insideItems.name}</div> 
-                                <div className="price">$ {insideItems.price[1].value}</div>
+                                <div className="price">$ {insideItems.Price[0].priceValue}</div>
                                 <div className="addToCart">
-                                <Link to={`/Product/?${insideItems.uniqueID}`}>
+                                    {/* <a onClick={this.addToCartHandler.bind(this, insideItems.uniqueID)}>Add to Cart</a> */}
+                                {/* <Link to={`/Product/?${insideItems.uniqueID}`}>
                                     Add to Cart
-                                </Link>
+                                </Link> */}
                                 </div>
 
                             </div>
                             //}
                         ))}    
                     </div>
-                    ))}
-                </div>             
+                    ))
+                }
+                </>             
             )
         }
 }

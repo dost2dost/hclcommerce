@@ -13,7 +13,7 @@ class SignIn extends Component{
     } 
     myHandler = (event) =>{
         this.setState({ [event.target.name] : event.target.value});
-        console.log(this.props.getToken+"dngle");
+        //console.log(this.props.getToken+"dngle");
     }
     /* logOutUser = (event) => {// call this function on logOut button
         fetch('https://192.168.7.167/wcs/resources/store/11901/loginidentity/@self',{
@@ -45,8 +45,8 @@ class SignIn extends Component{
         const payloads = {
             logonId: this.state.userName, //"zarak786@gmail.com", //zarak786@gmail.com karim.zarak@royalcyber.com
             logonPassword: this.state.password //"Revert!23d"
-        }
-        fetch('https://192.168.7.167/wcs/resources/store/11901/loginidentity?responseFormat=json',{
+        } //https://192.168.17.91/wcs/resources/store/1/categoryview/byParentCategory/5
+        fetch('https://192.168.17.91:5443/wcs/resources/store/1/loginidentity?responseFormat=json',{
             method: 'POST',
             headers: {
                 'accept': 'application/json',
@@ -72,7 +72,8 @@ class SignIn extends Component{
                     errorMsg : ''
                 });
                 //below addin data into Redux-Reducer
-                this.props.loginUser(this.state.userName, data.braintreeToken, data.WCToken, data.userId,  data.WCTrustedToken, data.personalizationID);
+                //console.log(data.resourceName+"from sign page")
+                this.props.loginUser(this.state.userName, data.resourceName, data.braintreeToken, data.WCToken, data.userId,  data.WCTrustedToken, data.personalizationID);
                 // this.props.changeToken(data.WCToken);
             }
             else{ // API results 
@@ -94,7 +95,7 @@ class SignIn extends Component{
     }
     
     render(){
-        console.log(this.props.getToken);
+        //console.log(this.props.getToken);
         let loading;
         if(this.state.startLoading){
             loading = <div className="loader"><img   src="Images/loader.svg" width="100" height="100"/></div>;
@@ -160,9 +161,9 @@ const mapStateToProps = (state) => {
   }
 const mapDispatchToProps = (dispatch) =>{
      return{
-        loginUser: (email, braintreeToken, tokn, userId, WCTrustedToken, personalizationID ) => {
+        loginUser: (email, resourceName,  braintreeToken, tokn, userId, WCTrustedToken, personalizationID ) => {
             dispatch({
-                    type: 'LOGED_USER', payloads: {email, braintreeToken,  tokn, userId, WCTrustedToken, personalizationID}
+                    type: 'LOGED_USER', payloads: {email, resourceName, braintreeToken,  tokn, userId, WCTrustedToken, personalizationID}
                 })
         }
         // ,
