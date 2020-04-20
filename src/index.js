@@ -7,11 +7,13 @@ import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import userReducer from './reducers/userReducer';
 import appSettings from './reducers/appSettings';
+import addToCart from './reducers/addToCart';
 const combReducers = combineReducers({
-    state: userReducer,
-    getAppState: appSettings
+    userToken: userReducer,
+    getAppSet: appSettings,
+    cart: addToCart
 })
-const store = createStore(userReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+const store = createStore(combReducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
 

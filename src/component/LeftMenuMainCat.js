@@ -55,7 +55,9 @@ class LeftMenuMainCat extends Component{
                             {item.CatalogGroupView.map(each => (
                                 <div className="cateItem" key={each.uniqueID}>
                                     <Link to={each.uniqueID.length > 2 ? `/Category/?${each.uniqueID}` : `/Category/?${each.uniqueID}&cat=Main`}>
-                                        {each.name} ({each.count})</Link>
+                                        {each.name} 
+                                        {/* ({each.count}) */}
+                                        </Link>
                                 </div>
                             ))}  
                         </div>

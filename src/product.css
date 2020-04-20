@@ -78,3 +78,22 @@
     background: #f7f8f9;
     padding: 15px 0px;
 }
+
+.productPage .addProductToCartNone{
+    display: none
+}
+.productPage .addProductToCart{
+    animation-name: example;
+    animation-duration: 1s;
+}
+.productPage .addProductToCart{
+        width: 300px;
+        border: 1px solid #d0d0d0;
+        z-index: 4;
+        position: absolute;
+        right: 20px;
+        background: white;
+        padding: 0px 0px 20px 0px;
+        box-shadow: 3px 3px 5px #dfdfdf;
+    
+}

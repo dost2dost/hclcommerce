@@ -1,144 +1,124 @@
 import React, { Component } from 'react';
 import './Checkout.css'; 
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
+import {connect} from 'react-redux'
+import OrderSummaryPopup from "./component/OrderSummaryPopup";
 class Checkout extends Component{
     constructor(props){
         super(props);
     }
     render(){
         return(
-            <div className="checkoutPage shippPage">
-                <h3>Shipping Address</h3>
+            
+            <div className="shoppingCart">
+                <h2>Shopping Cart</h2>
                 <div className="clearBoth"></div>
                 <div className="items">
-                    <div className="lableInput">
-                        <div className="lable">
-                            <span>First Name </span><span className="starik">*</span>
-                        </div>
-                        <div className="getInput">
-                            <input type="text" />
-                        </div>
-                    </div>
-                    <div className="lableInput">
-                        <div className="lable">
-                            <span>Last Name </span><span className="starik">*</span>
-                        </div>
-                        <div className="getInput">
-                            <input type="text" />
-                        </div>
-                    </div>
-                    
-                    <div className="lableInput">
-                        <div className="lable">
-                            <span>Company </span><span className="starik">*</span>
-                        </div>
-                        <div className="getInput">
-                            <input type="text" />
-                        </div>
-                    </div>
-                    <div className="lableInput">
-                        <div className="lable">
-                            <span>Street Address </span><span className="starik">*</span>
-                        </div>
-                        <div className="getInput">
-                            <input type="text" />
-                            <input type="text" />
-                            <input type="text" />
-                        </div>
-                    </div>
-                    <div className="lableInput">
-                        <div className="lable">
-                            <span>City </span><span className="starik">*</span>
-                        </div>
-                        <div className="getInput">
-                            <input type="text" />
-                        </div>
-                    </div>
-                    <div className="lableInput">
-                        <div className="lable">
-                            <span>State/Province </span><span className="starik">*</span>
-                        </div>
-                        <div className="getInput">
-                            <select>
-                                <option>Please Select a region, state or province.</option>
-                                <option data-title="Alabama" value="1">Alabama</option>
-                                <option data-title="Alaska" value="2">Alaska</option>
-                                <option data-title="American Samoa" value="3">American Samoa</option>
-                                <option data-title="Arizona" value="4">Arizona</option>
-                                <option data-title="Arkansas" value="5">Arkansas</option>
-                                <option data-title="Armed Forces Africa" value="6">Armed Forces Africa</option>
-                                <option data-title="Armed Forces Americas" value="7">Armed Forces Americas</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div className="lableInput">
-                        <div className="lable">
-                            <span>Zip/Postal Code </span><span className="starik">*</span>
-                        </div>
-                        <div className="getInput">
-                            <input type="text" />
-                        </div>
-                    </div>
-                    
-                    <div className="lableInput">
-                        <div className="lable">
-                            <span>Country </span><span className="starik">*</span>
-                        </div>
-                        <div className="getInput"> 
-                            <select>
-                                <option>United States.</option> 
-                                <option data-title="Afghanistan" value="AF">Afghanistan</option><option data-title="Åland Islands" value="AX">Åland Islands</option><option data-title="Albania" value="AL">Albania</option><option data-title="Algeria" value="DZ">Algeria</option><option data-title="American Samoa" value="AS">American Samoa</option><option data-title="Andorra" value="AD">Andorra</option><option data-title="Angola" value="AO">Angola</option><option data-title="Anguilla" value="AI">Anguilla</option><option data-title="Antarctica" value="AQ">Antarctica</option><option data-title="Antigua &amp; Barbuda" value="AG">Antigua &amp; Barbuda</option><option data-title="Argentina" value="AR">Argentina</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div className="lableInput">
-                        <div className="lable">
-                            <span>Phone Number </span><span className="starik">*</span>
-                        </div>
-                        <div className="getInput">
-                            <input type="text" />
-                        </div>
-                    </div>
-                    <div className="lableInput lableShip">
-                        <div className="">
-                            <p>Shipping Methods</p> 
-                        </div>
-                        <div className="getInput">
-                            <table className="shippingMethod">
-                                <tbody>
-                                <tr>
-                                    <td><input className="shipRadioBtn" type="radio" />$0.00</td>
-                                    <td>Free</td>
-                                    <td>Free Shipping</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div className="nextBtn">
-                            <Link to='/PaymentMethod'>Next </Link> 
-                        </div>
-                        <br/><br/>
-                    </div>
+                    <table>
+                        <thead>
+                        <tr className="headings">
+                            <td className="item">Item</td>
+                            <td className="description"></td>
+                            <td className="price">Price</td>
+                            <td className="qty">Qty</td>
+                            <td className="subtotal">SubTotal</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            
+                        {this.state.products.map( (item, index) => (                        
+                        <tr className="products" key={index}>
+                            <td className="item">
+                            <Link to={`/Product/?${item.uniqueID}`}>
+                                <img src={`${this.props.getAppSet.serverBaseURL}${item.thumbnail}`} />
+                            </Link>
+                            </td>
+                            <td className="description">
+                                <Link to={`/Product/?${item.uniqueID}`}>  {item.longDescription}</Link>
+                                <br/>
+                                <button onClick={this.removeItem.bind(this, 
+                                    item.SKUUniqueID, 
+                                    item.orderItemId, 
+                                    this.props.getOrderId,
+                                    item.quantity,
+                                    item.Price
+                                    )}>Remove Item</button>
+                            </td>
+                            <td className="price">
+                                <span>{item.Price}</span>
+                            </td>
+                            <td className="qty">
+                                <select  defaultValue={'DEFAULT'} onChange={
+                                    (event) => {this.updateQuantity(event,
+                                        item.SKUUniqueID, 
+                                        item.orderItemId, 
+                                        this.props.getOrderId,
+                                        item.quantity,
+                                        item.Price  
+                                    )}
+                                }>
+                                <option value={item.quantity} selected>{item.quantity}</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="6">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                </select>
+                                {/* <input type="text" value={item.quantity} onChange={
+                                    (event) => {this.updateQuantity(event,
+                                        item.SKUUniqueID, 
+                                        item.orderItemId, 
+                                        this.props.getOrderId,
+                                        item.quantity,
+                                        item.Price  
+                                    )}
+                                }/> */}
+                            </td>
+                            <td className="subtotal">
+                                <span>{(parseFloat(item.Price)*parseFloat(item.quantity)).toFixed(2)}</span>
+                            </td>
+                        </tr>
+))}
+                        <tr className="wishList">
+                            <td colSpan="3" className="wishList">
+                                <a href="#">Move to wishList</a>
+                            </td>
+                            <td className="edit"> </td>
+                            <td className="delete"><Link className="nextBtn" to="/Checkout/">Next</Link></td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <div className="summary">
-                    <div><p>Order Summary</p></div>
-                    
-                    <div className="image">
-                        <img src="/Images/7.jpg" />
-                    </div>
-                     <div className="otherData">
-                         <div>
-                            <Link to="/Product/?15602">officia delectus consequatur vero aut veniam explicabo molestias</Link>
-                         </div>
-                         <div className="inputsPrice"> 
-                            <span>Qty: 1</span>
-                         </div>
-                         <div>$29.23</div>
-                     </div>
-                </div>
+                <OrderSummaryPopup/>
+
+
             </div>
         )
     }
 }
-export default Checkout;
+const mapStateToProps = (state) => {
+    return {
+        getResourceName : state.userToken.resourceName,
+        getWCToken : state.userToken.WCToken,
+        getWCTrustedToken: state.userToken.WCTrustedToken,
+        getProductsInCart : state.cart.products,
+        getCartQuantity: state.cart.cart,
+        getSubTotal :state.cart.subTotal
+    }
+};
+export default connect(mapStateToProps, null)(Checkout);

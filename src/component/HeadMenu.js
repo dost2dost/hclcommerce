@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
+import { connect } from "react-redux";
 
 class HeadMenu extends Component{
     constructor(props){
@@ -14,7 +15,7 @@ class HeadMenu extends Component{
         };
     }
     componentDidMount(){
-        fetch('http://192.168.17.91:3737/search/resources/store/1/categoryview/@top?depthAndLimit=*')
+        fetch(this.props.getAppSet.API.searchMenuUrl)
         .then(res => res.json())
         .then(json => {
             this.setState({
@@ -87,7 +88,7 @@ class HeadMenu extends Component{
                     {[items].map((item, index) => (
                         <div key={item.recordSetTotal}>
                             {item.catalogGroupView.map((insideItems, index) => (
-                        <div className="cateItem" key={insideItems.uniqueID}>
+                        <div className={`cateItem menuItems${index}`} key={insideItems.uniqueID}>
                         {/* <Link to={`/SubCategory/?${insideItems.uniqueID}`}>{insideItems.name}</Link> */}
                         <a onClick={()=>this.MenuLink(insideItems.uniqueID, index)}>{insideItems.name}</a>
                         {/* <div className={insideItems.uniqueID} style={display}>
@@ -133,4 +134,17 @@ class HeadMenu extends Component{
     }
 
 }
-export default HeadMenu;
+const mapStateToProps = (state) => {
+    return {
+        getResourceName : state.userToken.resourceName,
+        getWCToken : state.userToken.WCToken,
+        getWCTrustedToken: state.userToken.WCTrustedToken,
+        getProductsInCart : state.cart.products,
+        //getCartQuantity: state.cart.cart,
+        getSubTotal :state.cart.subTotal,
+        getOrderId : state.cart.orderId,
+
+        getAppSet: state.getAppSet
+    }
+};
+export default connect(mapStateToProps, null)(HeadMenu);

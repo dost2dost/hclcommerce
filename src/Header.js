@@ -22,7 +22,7 @@ class Header extends Component{
            let searchWord = ''
            if(event.target.value.length > 1){
                searchWord = event.target.value
-               let getUrl = `http://192.168.17.91:3737/search/resources/store/1/sitecontent/keywordSuggestionsByTerm/${searchWord}?pageSize=4`
+               let getUrl = `${this.props.getAppSet.API.autoSuggest}${searchWord}?pageSize=4`
                //`https://192.168.17.91:5443/wcs/resources/store/1/categoryview/byParentCategory/5`  
                console.log(getUrl)
                fetch(getUrl) 
@@ -40,7 +40,7 @@ class Header extends Component{
        }      
       
        logOutUser = (event) => {// call this function on logOut button
-        fetch('https://192.168.17.91:5443/wcs/resources/store/11901/loginidentity/@self',{
+        fetch(this.props.getAppSet.API.userLogout, {
             method: 'DELETE' 
         });
         this.setState({
@@ -61,13 +61,18 @@ class Header extends Component{
          });
              // console.log(this.hideAtStart);
         }
+        hidePopup = (cartItems) => {
+            //console.log(this.state.showProductItems+'close pupop is called from header'+cartItems)
+            this.setState({showProductItems: false})
+            //console.log(this.state.showProductItems+'close pupop is called from header'+cartItems)
+        }
     render(){
         let shopCart = '' //'cart here'
         console.log(this.state.showProductItems+'showproduct')
         if(this.state.showProductItems){ 
-            shopCart = (<ShoppingCart showPopup={'show'} />);
+            shopCart = (<ShoppingCart showPopup={'show'} closePopup={(cartItems) => this.hidePopup(cartItems)}/>);
             //this.setState({showProductItems: false})
-            console.log(shopCart+'shopCart')
+            //console.log(shopCart+'shopCart')
         }
         if(this.state.logOutCall){
             return <Redirect to="/logOutUser"/>
@@ -75,8 +80,8 @@ class Header extends Component{
          const {showProductItems} = this.state;
          //console.log(this.props.getTocken+":Token");
          let signBtn, createAccBtn, myAccBtn;
-        //  console.log(this.props.getResourceName+"-----------------<");
-         if(this.props.getTocken === ''){
+          //console.log(this.props.getResourceName+"-----------------<"+this.props.getTocken );
+         if(this.props.getTocken === '' || this.props.getResourceName === "guestidentity"){
            signBtn =  <Link to="/signin">Sign In</Link>; 
            createAccBtn = <Link to="/NewAccount"> Create an Account</Link>;
            myAccBtn = '';
@@ -86,7 +91,7 @@ class Header extends Component{
              signBtn =  <a className="logOutClick" onClick={this.logOutUser}>Log Out</a>; 
          }
          let completSet = signBtn + ' OR';
-         //console.log(this.state.searchItems.suggestionView)
+         console.log(this.props.getCartQuantity)
     return(
         <div className="fullHeaderPart">
         <div className="topHeader">
@@ -106,7 +111,7 @@ class Header extends Component{
             </div>
         </div>
         <div className="searchBar">
-            <div className="logo"> <Link to="/" ><img alt="Circuit City" src="http://localhost:3000/Images/logo_2.png" /></Link></div>
+            <div className="logo"> <Link to="/" ><img alt="POD Single Page Application" src={`${this.props.getAppSet.baseURL}Images/logo_2.png`} /></Link></div>
             <div className="searchInput">
                 <input type="text" placeholder={this.state.search} onChange={this.getSearch} />
                 <a className="searchBtn" href="">Search</a>
@@ -118,7 +123,7 @@ class Header extends Component{
             }</div>
             </div>
             <div className="cartHolder">
-                <a className="cardClicker" onClick={this.showCart}>Cart <span className="cartNum">1</span></a>
+        <a className="cardClicker" onClick={this.showCart}>Cart <span className="cartNum">{this.props.getCartQuantity}</span></a>
             {shopCart}
             </div>
             {/* <div className="shipCart" onClick={this.showHideCart}></div> */}
@@ -132,8 +137,12 @@ class Header extends Component{
 };
 const mapStateToProps = (state) =>{
     return {
-        getTocken: state.WCToken,
-        getResourceName: state.resourceName
+        getTocken: state.userToken.WCToken,
+        getResourceName: state.userToken.resourceName,
+        getCartQuantity: state.cart.cartQuantity,
+
+        getAppSet : state.getAppSet
+
     }
 };
 

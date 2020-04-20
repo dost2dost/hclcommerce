@@ -55,7 +55,7 @@ class LeftMenu extends Component{
                                     {/* {item1.name} */}
                                 {item1.Entry.map((item2, index) => (
                         <div className="cateItem" key={index}> 
-                            <Link to={`/Category/?${item.CatalogEntryView[0].parentCategoryID}&cat=SubCat&Filter=${item2.label}`}>{item2.label} ({item2.count})</Link>
+                            <Link to={`/Category/?${item.CatalogEntryView[0].parentCategoryID}&cat=SubCat&Filter=${item2.label}`}>{item2.label} </Link>
                         </div>
                                 ))}
                                 </div>

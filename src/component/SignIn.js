@@ -100,7 +100,7 @@ class SignIn extends Component{
         if(this.state.startLoading){
             loading = <div className="loader"><img   src="Images/loader.svg" width="100" height="100"/></div>;
         }
-        if(  !this.props.getToken ){//If the user is failed to login or it comes to this page to login
+        if(  !this.props.getToken || this.props.getResourceName === "guestidentity" ){//If the user is failed to login or it comes to this page to login
             
         return(
             <div className="signInPage">
@@ -156,7 +156,8 @@ class SignIn extends Component{
 };
 const mapStateToProps = (state) => {
     return {
-      getToken: state.WCToken
+      getToken: state.userToken.WCToken,
+      getResourceName: state.userToken.resourceName
     }
   }
 const mapDispatchToProps = (dispatch) =>{

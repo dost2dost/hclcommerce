@@ -232,3 +232,17 @@ div.mainMenu {
    max-width: 1340px;
   }
 }
+
+
+.cartDetailPage .viewAndEdit{
+  width: 80%;
+  margin: 10px auto;
+  background: #019cde;
+  padding: 10px 15px;
+  font-size: 15px;
+  border-radius: 4px;
+  color: white;
+} 
+.cartDetailPage .viewAndEdit a, .cartDetailPage .viewAndEdit a:hover, .cartDetailPage .viewAndEdit a:visited {
+  color:white
+}

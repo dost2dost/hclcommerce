@@ -10,11 +10,11 @@ class LogOut extends Component {// call this function on logOut button
         super(props)
     }
     componentDidMount(props){
-        fetch('https://192.168.7.167/wcs/resources/store/11901/loginidentity/@self',{
+        fetch(this.props.getAppSet.API.userLogout,{
             method: 'DELETE' 
         }); 
         //this.props.logOutUser('', '', '', '', '', ''); //removing data from Redux-Reducer 
-        console.log(this.props)
+       // console.log(this.props)
         
     
     }
@@ -24,7 +24,13 @@ class LogOut extends Component {// call this function on logOut button
         return <Redirect to="/MyAccount"/>   
     }
 };
+const mapStateToProps = (state) =>{
+    return { 
 
+        getAppSet : state.getAppSet
+
+    }
+};
 const mapDispatchToProps = (dispatch) => {
     return{
         logOutUser: ( email, braintreeToken, tokn, userId, WCTrustedToken, personalizationID ) => {
@@ -32,4 +38,4 @@ const mapDispatchToProps = (dispatch) => {
         }
     }
 }
-export default  connect(mapDispatchToProps)(LogOut); 
+export default  connect(mapStateToProps, mapDispatchToProps)(LogOut); 
