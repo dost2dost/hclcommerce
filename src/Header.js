@@ -55,10 +55,12 @@ class Header extends Component{
        // this.props.history.push("/");
         }
         showCart = (event) => {
+            if(this.props.getCartQuantity > 0){
             console.log(this.state.showProductItems+"set")
          this.setState({
              showProductItems: true //!this.state.showProductItems
          });
+        }
              // console.log(this.hideAtStart);
         }
         hidePopup = (cartItems) => {

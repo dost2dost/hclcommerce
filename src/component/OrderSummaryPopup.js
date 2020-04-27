@@ -12,7 +12,11 @@ class OrderSummaryPopup extends Component{
                             <tbody>
                             <tr>
                                 <td>SubTotal </td>
-                                <td>${this.props.getSubTotal}</td>
+                                <td>${this.props.getCartDetails.totalValue}</td>
+                            </tr>
+                            <tr>
+                                <td>Discount </td>
+                                <td>${this.props.getCartDetails.discount}</td>
                             </tr>
                             <tr>
                                 <td>Tax </td>
@@ -20,17 +24,18 @@ class OrderSummaryPopup extends Component{
                             </tr>
                             <tr>
                                 <td>Order Total </td>
-                                <td>${this.props.getSubTotal}</td>
+                                <td>${this.props.getCartDetails.grandTotal}</td>
                             </tr>
                             </tbody>
                         </table>
                     </div>
-                    <div className="checkoutAndPaypal"><div className="proceed">
-                        <Link to="/Checkout/">Proceed to Checkout</Link>
+                     {/*<div className="checkoutAndPaypal"><div className="proceed">
+                        <Link to="/CartPage/">Proceed to Checkout</Link>
                           
                          </div><div className="paypal">
-                             {/* <a href="#">PayPal</a> */}
-                    </div></div>
+                             <a href="#">PayPal</a> 
+                    </div>
+                    </div>*/}
                 </div>
         )
     }
@@ -42,7 +47,7 @@ const mapStateToProps = (state) => {
         getWCTrustedToken: state.userToken.WCTrustedToken,
         getProductsInCart : state.cart.products,
         //getCartQuantity: state.cart.cart,
-        getSubTotal :state.cart.subTotal,
+        getCartDetails :state.cart,
         getOrderId : state.cart.orderId,
 
         getAppSet: state.getAppSet

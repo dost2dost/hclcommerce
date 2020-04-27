@@ -46,7 +46,7 @@ class SignIn extends Component{
             logonId: this.state.userName, //"zarak786@gmail.com", //zarak786@gmail.com karim.zarak@royalcyber.com
             logonPassword: this.state.password //"Revert!23d"
         } //https://192.168.17.91/wcs/resources/store/1/categoryview/byParentCategory/5
-        fetch('https://192.168.17.91:5443/wcs/resources/store/1/loginidentity?responseFormat=json',{
+        fetch(this.props.getAppSet.API.userLogin,{
             method: 'POST',
             headers: {
                 'accept': 'application/json',
@@ -157,7 +157,9 @@ class SignIn extends Component{
 const mapStateToProps = (state) => {
     return {
       getToken: state.userToken.WCToken,
-      getResourceName: state.userToken.resourceName
+      getResourceName: state.userToken.resourceName,
+
+      getAppSet: state.getAppSet
     }
   }
 const mapDispatchToProps = (dispatch) =>{

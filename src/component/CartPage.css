@@ -106,3 +106,16 @@ h2{
 .shoppingCart .price, .shoppingCart .qty, .shoppingCart .subtotal{
     vertical-align: middle;
 }
+
+.loginCartPage input{
+    width: 100% !important;
+    border: 1px solid gray;
+}
+.loginCartPage .nextBtn{
+    padding: 10px;
+    border: 1px solid red;
+}
+.orderComplete p{
+    text-align: left;
+    margin-left: 1.5%;
+}

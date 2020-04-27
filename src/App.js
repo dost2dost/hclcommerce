@@ -17,6 +17,8 @@ import LeftMenu from './component/LeftMenu';
 import VRModel from './component/VRModel';
 import CartPage from './component/CartPage';
 import Checkout from './Checkout';
+import OrderSummary from './component/OrderSummary'
+import OrderComplete from "./component/OrderComplete";
 import PaymentMethod from './component/PaymentMethod';
 import {connect} from 'react-redux';
 import logOutUser from './component/LogOut'
@@ -51,7 +53,8 @@ function App(props) {
             <Route path="/CartPage" component={CartPage}/>
             <Route path="/Checkout" component={Checkout}/>
             <Route path="/PaymentMethod" component={PaymentMethod}/>
-            
+            <Route path="/OrderSummary" component={OrderSummary}/>
+            <Route path="/OrderComplete" component={OrderComplete} />
             <Route path="/MyAccount" component={MyAccount}/> 
             <Route path="/MyAccountPage" component={MyAccountPage}/> 
             <Route path="/MyAccountMenu" component={MyAccountMenu}/> 

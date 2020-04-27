@@ -20,7 +20,7 @@ const userReducer = (state = iState, action) =>{
             WCToken: action.payloads.tokn,
             WCTrustedToken: action.payloads.WCTrustedToken,
             personalizationID: action.payloads.personalizationID,   
-        }
+        } //email, braintreeToken, tokn, userId, WCTrustedToken, personalizationID 
     }
     return state;
     

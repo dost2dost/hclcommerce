@@ -7,9 +7,18 @@ class CartPage extends Component{
     constructor(props){
         super(props);
         this.state={
-            products: []
+            products: [],
+            userName: '',
+            password: '',
+            errorMsg: '',
+            isAuthenticated: false,
+            Token: this.props.getWCToken,
+            trustToken: this.props.getWCTrustedToken
         }
-
+    }
+    formHandler = (event) =>{
+        this.setState({ [event.target.name] : event.target.value});
+        //console.log(this.props.getToken+"dngle");
     }
     removeItem = (SKUUniqueID, orderItemId, orderId, quantity, Price) => {
         //console.log(`${SKUUniqueID}--- ${orderItemId} ---- ${orderId}`)
@@ -37,6 +46,7 @@ class CartPage extends Component{
             // console.log(data)
              this.props.removeFromCart(data.orderId, removeProduct)
              this.setState({products: this.props.getProductsInCart})
+             this.cartDetails()
         },
         (error) => {//API not accessable or through error            
            
@@ -45,8 +55,27 @@ class CartPage extends Component{
     }
     componentDidMount(props){
         this.setState({products: this.props.getProductsInCart})
+        console.log('componnent did mount called')
+        this.cartDetails()
     }
-
+    cartDetails = () => {
+        fetch(this.props.getAppSet.API.cartDetails,{
+            method: 'GET',
+            headers: { 
+                'Content-type': 'application/json',
+                'WCToken':  this.props.getWCToken,
+                'WCTrustedToken': this.props.getWCTrustedToken
+            }
+        })
+        .then(res => res.json())
+        .then(json => {
+            console.log('cartDetail api called')
+            console.log(json)
+            //this.setState({billAndShip: json})
+            this.props.updateDisAndTot(json.totalProductPrice, json.grandTotal, json.totalAdjustment)
+            this.setState({products: this.props.getProductsInCart})
+        }).catch(e => console.log(e));
+    }
     updateQuantity2 = (event, SKUUniqueID, orderItemId, orderId, quantity, Price) => {
         let updateProduct = {SKUUniqueID:SKUUniqueID, orderItemId:orderItemId, quantity: event.target.value, Price:Price}
         if(event.target.value === NaN){
@@ -67,7 +96,7 @@ class CartPage extends Component{
             orderItem: [
                 {"orderItemId": orderItemId,
                 "productId": SKUUniqueID, 
-                "quantity": "10" 
+                "quantity": quantity 
                 }],
             "x_calculateOrder": "0",
             "x_inventoryValidation": "true"
@@ -90,6 +119,7 @@ class CartPage extends Component{
              //this.props.addToCart(data.orderId, removeProduct)
              this.props.updateCart(data.orderId, updateProduct)
              this.setState({products: this.props.getProductsInCart})
+             this.cartDetails()
              console.log(this.state.products)
         },
         (error) => {//API not accessable or through error            
@@ -98,8 +128,83 @@ class CartPage extends Component{
         });
     }
     }
+    signIn = () => { 
+        console.log(this.state.userName + this.state.password)
+        const payloads = {
+            logonId: this.state.userName, //"zarak786@gmail.com", //zarak786@gmail.com karim.zarak@royalcyber.com
+            logonPassword: this.state.password //"Revert!23d"
+        } 
+        fetch(this.props.getAppSet.API.userLogin,{
+            method: 'POST',
+            headers: {
+                'accept': 'application/json',
+                'Content-type': 'application/json',
+                'WCToken':  this.props.getWCToken,
+                'WCTrustedToken': this.props.getWCTrustedToken
+            },
+            body: JSON.stringify(payloads)
+        })
+        .then(res=>res.json())
+        .then((data)=>{
+            if(data.errors != undefined){//API results with an error message 
+                console.log(data);
+                this.setState({
+                    isAuthenticated: false,
+                    errorMsg: data.errors[0].errorMessage
+                });
+            }
+            else if( data.WCToken !== undefined){ //Successfully Loged In
+                console.log(data.WCToken+"------"+data.WCTrustedToken);
+                this.setState({
+                    isAuthenticated: true,
+                    Token: data.WCToken,
+                    trustToken: data.WCTrustedToken,
+                     errorMsg : ''
+                });
+                
+                //below addin data into Redux-Reducer
+                //console.log(data.resourceName+"from sign page")
+                this.props.loginUser(this.state.userName, data.resourceName, data.braintreeToken, data.WCToken, data.userId,  data.WCTrustedToken, data.personalizationID);
+                this.cartDetails()
+                // this.props.changeToken(data.WCToken);
+            }
+            else{ // API results 
+                console.log('Else Statement');
+                this.setState({
+                    isAuthenticated: false,
+                    errorMsg: 'Error while loging'
+                });
+            }
+        },
+        (error) => {//API not accessable or through error            
+            this.setState({
+                isAuthenticated: false,
+                errorMsg: 'Either your user name or password is wrong'
+            });
+            console.log(this.state.isAuthenticated+"Error Data>>"+error);
+        }); 
+        //this.setState({startLoading: false});
+    }
     render(){
-        
+        let checkCustomer = ''
+        if(this.props.getResourceName === 'loginidentity' || this.props.getResourceName === 'person'){
+            checkCustomer = (
+                <Link className="nextBtn" to="/Checkout/">Checkout</Link>
+                
+            )
+        console.log(this.props.getWCToken+"<<<"+this.props.getResourceName+">>>"+this.props.getWCTrustedToken)
+        }
+        else{
+            checkCustomer = (
+                <div className="loginCartPage"><br/>
+            <p><b>Returning customers</b></p>
+        <input type="text" name="userName" placeholder="Username" onChange={this.formHandler}/><br/><br/>
+        <input type="password" placeholder="Password" name="password" onChange={this.formHandler}/><br/><br/>
+        <button className="nextBtn" onClick={this.signIn}>Sign In & Checkout</button>
+             </div> 
+        )
+        }
+
         return(
             <div className="shoppingCart">
                 <h2>Shopping Cart</h2>
@@ -186,18 +291,39 @@ class CartPage extends Component{
                         </tr>
 ))}
                         <tr className="wishList">
-                            <td colSpan="3" className="wishList">
-                                <a href="#">Move to wishList</a>
+                            <td colSpan="2" className="wishList">
+                                {/* <p>
+                                    <b>New customer & guests</b><br/>
+                                        Checkout without signing in<br/>
+
+
+                                        You can make your purchases from Aurora without signing in.<br/>
+
+
+                                        You will be given the option to register during the checkout steps.
+                                </p>
+                                <Link className="nextBtn" to="/Checkout/">Continue Checkout</Link> */}
+                            </td> 
+                            <td colSpan="3"  className="delete">
+                                <br/><br/>
+                            <div className="clearBoth"></div>
+                            {checkCustomer}
+                                {/* {this.props.getResourceName === 'loginidentity' || this.props.getResourceName === 'person'  ?  //guestidentity   person  "loginidentity"
+                                <div className="loginCartPage"><br/>
+                                        <p><b>Returning customers</b></p>
+                                    <input type="text" name="userName" placeholder="Username" onChange={this.formHandler}/><br/><br/>
+                                    <input type="password" placeholder="Password" name="password" onChange={this.formHandler}/><br/><br/>
+                                    <button className="nextBtn" onClick={this.signIn}>Sign In & Checkout</button>
+                                </div>
+                                : this.props.getResourceName === 'guestidentity' ? <Link className="nextBtn" to="/Checkout/">Checkout</Link> : null } */}
+                                
+                                {/* <Link className="nextBtn" to="/Checkout/">Next</Link> */}
                             </td>
-                            <td className="edit"> </td>
-                            <td className="delete"><Link className="nextBtn" to="/Checkout/">Next</Link></td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
                 <OrderSummaryPopup/>
-
-
             </div>
         )
     }
@@ -227,6 +353,18 @@ const mapDispatchToProps = (dispatch) =>{
             dispatch({
                 type: 'UPDATE_CART', payloads: {orderId, updateProduct}
             })
+        },
+
+        updateDisAndTot : (total, grandTotal, discount) => {
+            dispatch({
+                type: 'CART_DETAILS', payloads: {total, grandTotal, discount}
+            })
+        },
+
+        loginUser: (email, resourceName,  braintreeToken, tokn, userId, WCTrustedToken, personalizationID ) => {
+            dispatch({
+                    type: 'LOGED_USER', payloads: {email, resourceName, braintreeToken,  tokn, userId, WCTrustedToken, personalizationID}
+                })
         }
    }
 }

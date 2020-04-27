@@ -6,7 +6,15 @@ import { Redirect } from 'react-router-dom';
 class NewAccount extends Component{
     constructor(props){
         super(props);
-        this.state = {firstName : '', lastName: '',  email: '', newsCheck: '', password : '', confirmPassword: '', errorMsg: '', isAuthenticated: false};
+        this.state = {firstName : '', lastName: '',  email: '', newsCheck: '', password : '', confirmPassword: '',
+                    streetaddress: '', 
+                    city: '',
+                    countryRegion: '',
+                    stateProvince: '',
+                    zipCode: '',
+                    address1: '',
+
+        errorMsg: '', isAuthenticated: false};
         //this._handleFirstName = this._handleFirstName.bind(this);
     }
    
@@ -43,9 +51,18 @@ class NewAccount extends Component{
             logonPassword: this.state.password, //"zarak786@gmail.com", //zarak786@gmail.com karim.zarak@royalcyber.com
             profileType : 'C',
             logonPasswordVerify: this.state.confirmPassword, //"Revert!23d"
-            logonId: this.state.email 
+            logonId: this.state.email,
+            //streetaddress: this.state.streetaddress, 
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            email1: this.state.email,
+            addressLine: this.state.streetaddress,
+            city: this.state.city,
+            country: this.state.countryRegion,
+            state: this.state.stateProvince,
+            zipCode: this.state.zipCode, 
         }
-        fetch('https://192.168.17.91:5443/wcs/resources/store/1/person',{
+        fetch(this.props.getAppSet.API.newRegistration,{
             method: 'POST',
             headers: {
                 'accept': 'application/json',
@@ -73,7 +90,7 @@ class NewAccount extends Component{
                 });
                 //below addin data into Redux-Reducer
                 this.props.registerUser(
-                    this.state.userName, data.braintreeToken, data.WCToken, data.userId,  data.WCTrustedToken, data.personalizationID
+                    this.state.userName, data.resourceName, data.braintreeToken, data.WCToken, data.userId,  data.WCTrustedToken, data.personalizationID
                 )
                 
                 //this.props.loginUser(this.state.userName, data.braintreeToken, data.WCToken, data.userId,  data.WCTrustedToken, data.personalizationID);
@@ -138,6 +155,49 @@ class NewAccount extends Component{
                             <input name="lastName" ref={(input) => {this._handleLastName = input;}} onChange={this.handleEachItem} type="text" />
                         </div>
                     </div>
+
+                    <div className="lableInput">
+                        <div className="lable">
+                            <span>Street Address </span><span className="starik">*</span>
+                        </div>
+                        <div className="getInput">
+                            <input name="streetaddress" ref={(input) => {this._handleLastName = input;}} onChange={this.handleEachItem} type="text" />
+                        </div>
+                    </div>
+                    
+                    <div className="lableInput">
+                        <div className="lable">
+                            <span>City </span><span className="starik">*</span>
+                        </div>
+                        <div className="getInput">
+                            <input name="city" ref={(input) => {this._handleLastName = input;}} onChange={this.handleEachItem} type="text" />
+                        </div>
+                    </div>
+                    <div className="lableInput">
+                        <div className="lable">
+                            <span>Country/Region </span><span className="starik">*</span>
+                        </div>
+                        <div className="getInput">
+                            <input name="countryRegion" ref={(input) => {this._handleLastName = input;}} onChange={this.handleEachItem} type="text" />
+                        </div>
+                    </div>
+                    <div className="lableInput">
+                        <div className="lable">
+                            <span>State Province</span><span className="starik">*</span>
+                        </div>
+                        <div className="getInput">
+                            <input name="stateProvince" ref={(input) => {this._handleLastName = input;}} onChange={this.handleEachItem} type="text" />
+                        </div>
+                    </div>
+                    <div className="lableInput">
+                        <div className="lable">
+                            <span>Zip Code</span><span className="starik">*</span>
+                        </div>
+                        <div className="getInput">
+                            <input name="zipCode" ref={(input) => {this._handleLastName = input;}} onChange={this.handleEachItem} type="text" />
+                        </div>
+                    </div>
+                    
                     <div className="lableInput">
                         <div className="lable">
                             
@@ -192,12 +252,23 @@ class NewAccount extends Component{
         );
     }
 }
+const mapStateToProps = (state) => {
+    return {
+        getResourceName : state.userToken.resourceName,
+        getWCToken : state.userToken.WCToken,
+        getWCTrustedToken: state.userToken.WCTrustedToken,
+        getProductsInCart : state.cart.products,
+        getCartDetails: state.cart,
+        getSubTotal :state.cart.subTotal,
 
+        getAppSet: state.getAppSet
+    }
+};
 const mapDispatchToProps = (dispatch) => {
     return{
-        registerUser: ( email, braintreeToken, tokn, userId, WCTrustedToken, personalizationID ) => {
-            dispatch(MainActions(email, braintreeToken, tokn, userId, WCTrustedToken, personalizationID))
+        registerUser: ( email, resourceName, braintreeToken, tokn, userId, WCTrustedToken, personalizationID ) => {
+            dispatch(MainActions(email, resourceName, braintreeToken, tokn, userId, WCTrustedToken, personalizationID))
         }
     }
 }
-export default connect(null, mapDispatchToProps)(NewAccount);
+export default connect(mapStateToProps, mapDispatchToProps)(NewAccount);

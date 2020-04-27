@@ -157,9 +157,9 @@ class ShoppingCart extends Component{
                         <div className="clearBoth"></div>
                     </div>
                     <div className="checkoutAndPaypal">
-                        <div className="proceed">
-                        <Link to="/Checkout">Proceed to Checkout</Link>
-                        </div>
+                        {/* <div className="proceed">
+                        <Link to="/CartPage">Proceed to Checkout</Link>
+                        </div> */}
                         <div className="paypal">
                             {/* <a href="#">PayPal</a> */}
                         </div>

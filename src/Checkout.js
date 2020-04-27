@@ -1,19 +1,171 @@
 import React, { Component } from 'react';
 import './Checkout.css'; 
-import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Link, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux'
 import OrderSummaryPopup from "./component/OrderSummaryPopup";
+import OrderComplete from './component/OrderComplete'
 class Checkout extends Component{
     constructor(props){
         super(props);
+        this.state = {
+            products: [],
+            billAndShip: [],
+            header: 
+            {
+                'accept': 'application/json',
+                'Content-type': 'application/json',
+                'WCToken':  this.props.getWCToken,
+                'WCTrustedToken': this.props.getWCTrustedToken
+            },
+            shippingAddDetails: [],
+            billingAddDetails: [],
+            addressId: '',
+            addCountry: '',
+            redirectToSummaryPage: false
+        }
+    }
+    componentDidMount(props){
+        this.setState({products: this.props.getProductsInCart})
+        this.billAndShipUserInfo()
+        this.shippingMethod()
+        this.billingMethod()
+    }
+    billAndShipUserInfo = () => {      
+        fetch(this.props.getAppSet.API.billAndShipUserInfo,{ // 'https://192.168.17.91:5443/wcs/resources/store/1/person/@self',
+             method: 'GET',
+             headers: this.state.header 
+         })
+         .then(res => res.json())
+         .then(json => {
+             console.log(json)
+             this.setState({billAndShip: json, addressId:json.addressId, addCountry:json.country})
+         }).catch(e => console.log(e));
+     }
+     shippingMethod = () => {      
+        fetch(this.props.getAppSet.API.shippingMethods,{//'https://192.168.17.91:5443/wcs/resources/store/1/cart/@self/usable_shipping_info',
+             method: 'GET',
+             headers: this.state.header 
+         })
+         .then(res => res.json())
+         .then(json => {
+             console.log(json)
+             this.setState({shippingAddDetails: json.orderItem[0].usableShippingMode})
+             console.log(json.orderItem[0].usableShippingMode)
+         }).catch(e => console.log(e));
+     }
+     billingMethod = () => {      
+        fetch(this.props.getAppSet.API.billingMethods,{//'https://192.168.17.91:5443/wcs/resources/store/1/cart/@self/usable_payment_info',
+             method: 'GET',
+             headers: this.state.header 
+         })
+         .then(res => res.json())
+         .then(json => {
+             console.log(json)
+             this.setState({billingAddDetails: json.usablePaymentInformation})
+             console.log(this.state.billingAddDetails)
+         }).catch(e => console.log(e));
+     }
+     removeItem = (SKUUniqueID, orderItemId, orderId, quantity, Price) => {
+        //console.log(`${SKUUniqueID}--- ${orderItemId} ---- ${orderId}`)
+        let removeProduct = {SKUUniqueID:SKUUniqueID, orderItemId:orderItemId, quantity: quantity, Price: Price}
+        const payloads = {
+            orderId: orderId,
+            "orderItemId": orderItemId,//"12326",
+            "catEntryId": SKUUniqueID //"1"
+            //"x_calculateOrder": "0",
+            //"x_inventoryValidation": "true", 
+        }  
+        fetch(this.props.getAppSet.API.deleteFromCart,{
+            method: 'PUT',
+            headers: {
+                //'accept': 'application/json',
+                'Content-type': 'application/json',
+                'WCToken':  this.props.getWCToken,
+                'WCTrustedToken': this.props.getWCTrustedToken
+
+            },
+            body: JSON.stringify(payloads)
+        })
+        .then(res=>res.json())
+        .then((data)=>{
+            // console.log(data)
+             this.props.removeFromCart(data.orderId, removeProduct)
+             this.setState({products: this.props.getProductsInCart})
+        },
+        (error) => {//API not accessable or through error            
+           
+            console.log( "Error Data>>"+error);
+        });
+    }
+    gotoSummary = () => {//paymentInstructions
+        const payloads = {
+            "billing_address_id": this.state.addressId,
+            "payMethodId": "COD",
+            "orderId": this.props.getCartDetails.orderId,
+            "piAmount": this.props.getCartDetails.grandTotal,
+            "billto_address1":this.state.addressId,
+            "billto_country": this.state.addCountry 
+            //"x_calculateOrder": "0",
+            //"x_inventoryValidation": "true", 
+        }  
+        fetch(this.props.getAppSet.API.paymentInstructions,{
+            method: 'POST',
+            headers: {
+                //'accept': 'application/json',
+                'Content-type': 'application/json',
+                'WCToken':  this.props.getWCToken,
+                'WCTrustedToken': this.props.getWCTrustedToken
+
+            },
+            body: JSON.stringify(payloads)
+        })
+        .then(res=>res.json())
+        .then((data)=>{
+            console.log(data)
+            this.props.otherDetails(this.state.billAndShip, this.state.shippingAddDetails, this.state.billingAddDetails, this.state.addressId, this.state.addCountry, data.paymentInstruction[0].piId, data.orderId)
+            
+            //this.props.removeFromCart(data.orderId, removeProduct)
+             this.setState({redirectToSummaryPage: true})
+        },
+        (error) => {//API not accessable or through error            
+           
+            console.log( "Error Data>>"+error);
+        });
+        
+        console.log(`${this.props.getCartDetails.addressId}--${this.props.getCartDetails.orderId}--${this.props.getCartDetails.piId}--${this.props.getCartDetails.addCountry}--${this.props.getCartDetails.shippingMethod}---${this.props.getCartDetails.billingMethod}`)
+        
     }
     render(){
+        //console.log(`${this.state.addressId}--${this.props.getCartDetails.orderId}--${this.props.getCartDetails.grandTotal}--${this.state.addCountry}`)
+        if(this.state.redirectToSummaryPage){
+           return <Redirect to="/OrderSummary"/>
+        }
         return(
             
             <div className="shoppingCart">
-                <h2>Shopping Cart</h2>
+                <h2>Shipping & Billing Method</h2>
                 <div className="clearBoth"></div>
                 <div className="items">
+                    <div className="shippingAdd">
+                        <div className="addFields">
+                            <p><b>Shipping Address:</b></p>
+                            <p>{this.state.billAndShip.lastName}</p>
+                            <p>{this.state.billAndShip.firstName}</p>
+                            <p>{this.state.billAndShip.country}</p>
+                            <p>{this.state.billAndShip.state}</p>
+                            <p>{this.state.billAndShip.city}</p>
+                            <p>{this.state.billAndShip.addressLine}</p>
+                            <p>{this.state.billAndShip.email1}</p>
+                        </div>
+                        <div className="shippAddOptions">
+                            <p><b>Shipping Method:</b></p>
+                            <select>
+                                {this.state.shippingAddDetails.map(item => (
+                                <option value={item.shipModeId} key={item.shipModeId}>{item.description}</option>    
+                                ))}
+                            </select>
+                        </div>
+                    </div>
                     <table>
                         <thead>
                         <tr className="headings">
@@ -42,43 +194,13 @@ class Checkout extends Component{
                                     this.props.getOrderId,
                                     item.quantity,
                                     item.Price
-                                    )}>Remove Item</button>
+                                    )}>Remove Item</button>                                 
                             </td>
                             <td className="price">
                                 <span>{item.Price}</span>
                             </td>
                             <td className="qty">
-                                <select  defaultValue={'DEFAULT'} onChange={
-                                    (event) => {this.updateQuantity(event,
-                                        item.SKUUniqueID, 
-                                        item.orderItemId, 
-                                        this.props.getOrderId,
-                                        item.quantity,
-                                        item.Price  
-                                    )}
-                                }>
-                                <option value={item.quantity} selected>{item.quantity}</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="6">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                                <option value="11">11</option>
-                                <option value="12">12</option>
-                                <option value="13">13</option>
-                                <option value="14">14</option>
-                                <option value="15">15</option>
-                                <option value="16">16</option>
-                                <option value="17">17</option>
-                                <option value="18">18</option>
-                                <option value="19">19</option>
-                                <option value="20">20</option>
-                                </select>
+                            {item.quantity}
                                 {/* <input type="text" value={item.quantity} onChange={
                                     (event) => {this.updateQuantity(event,
                                         item.SKUUniqueID, 
@@ -96,13 +218,42 @@ class Checkout extends Component{
 ))}
                         <tr className="wishList">
                             <td colSpan="3" className="wishList">
-                                <a href="#">Move to wishList</a>
+                                {/* <a href="#">Move to wishList</a> */}
                             </td>
                             <td className="edit"> </td>
-                            <td className="delete"><Link className="nextBtn" to="/Checkout/">Next</Link></td>
+                            <td className="delete">
+                                
+                            </td>
                         </tr>
                         </tbody>
                     </table>
+
+                    <div className="shippingAdd">
+                        <div className="addFields">
+                            <p><b>Billing Address:</b></p>
+                            <p>{this.state.billAndShip.lastName}</p>
+                            <p>{this.state.billAndShip.firstName}</p>
+                            <p>{this.state.billAndShip.country}</p>
+                            <p>{this.state.billAndShip.state}</p>
+                            <p>{this.state.billAndShip.city}</p>
+                            <p>{this.state.billAndShip.addressLine}</p>
+                            <p>{this.state.billAndShip.email1}</p>
+                        </div>
+                        <div className="shippAddOptions">
+                        <p><b>Billing Method:</b></p>
+                            <select>
+                                {this.state.billingAddDetails.map(item => (
+                                <option value={item.paymentMethodName} key={item.xumet_policyId}>{item.description}</option>    
+                                ))}
+                            </select>
+                            <br/>
+                            <b>Amount:</b><br/>
+                            <input type="text" value={this.props.getCartDetails.grandTotal}/>
+                        </div>
+                    </div>
+                    <br/>
+                        {/* <Link className="nextBtn" to="/Checkout/">Next</Link> <br/> */}
+                        <button className="nextBtn" onClick={this.gotoSummary}>Next</button>
                 </div>
                 <OrderSummaryPopup/>
 
@@ -117,8 +268,24 @@ const mapStateToProps = (state) => {
         getWCToken : state.userToken.WCToken,
         getWCTrustedToken: state.userToken.WCTrustedToken,
         getProductsInCart : state.cart.products,
-        getCartQuantity: state.cart.cart,
-        getSubTotal :state.cart.subTotal
+        getCartDetails: state.cart,
+        getSubTotal :state.cart.subTotal,
+
+        getAppSet: state.getAppSet
     }
 };
-export default connect(mapStateToProps, null)(Checkout);
+const mapDispatchToProps = (dispatch) =>{
+    return{
+        removeFromCart: (orderId, removeProduct) => {
+            dispatch({
+                type: 'REMOVE_FROM_CART', payloads :{ orderId, removeProduct}
+            })
+        },
+        otherDetails: (billAndShipAddDetails, shippingAddDetails, billingAddDetails, addressId, addCountry, piId, orderId) => {
+            dispatch({
+                type: 'OTHER_CART_DETAILS', payloads: {billAndShipAddDetails, shippingAddDetails, billingAddDetails, addressId, addCountry, piId, orderId}
+            })
+        }
+   }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Checkout);

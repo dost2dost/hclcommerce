@@ -23,6 +23,7 @@ class MyProduct extends Component{
         this.setState ({quntity : event.target.value});
     }
     componentDidMount(props){
+        console.log(this.props.getResourceName)
         this.setState ({
             isLoaded: false,
         })
@@ -38,12 +39,10 @@ class MyProduct extends Component{
         }).catch(e => console.log(e));
 
         if(!this.props.getWCToken){
+            console.log(this.props.getWCToken)
             this.loginGuestAPI();  
         } 
-    }
-    componentWillMount(){
-        
-    }
+    } 
     AddToCart = (uniqueID, SKUUniqueID, Price, thumbnail, longDescription) => {
         this.addToCartAPI(uniqueID, SKUUniqueID, Price, thumbnail, longDescription)
     }
