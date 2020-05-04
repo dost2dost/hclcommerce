@@ -114,6 +114,7 @@ class OrderSummary extends Component{
         .then((data)=>{
             console.log(data)
             this.setState({moveToCompletePage: true})
+            this.props.orderComplete()
         },
         (error) => {//API not accessable or through error            
             console.log( "Error Data>>"+error);
@@ -142,7 +143,7 @@ class OrderSummary extends Component{
                         </div>
                         <div className="shippAddOptions">
                             <p><b>Shipping Method:</b></p>
-                        
+                            <p>{this.props.getCartDetails.shippingMethod}</p>
                         </div>
                     </div>
                     <table>
@@ -217,14 +218,15 @@ class OrderSummary extends Component{
                         </div>
                         <div className="shippAddOptions">
                         <p><b>Billing Method:</b></p>
-                             
+                            <p>{this.props.getCartDetails.billingMethod}</p>
                             <br/>
                             <b>Amount:</b><br/>
                             <span>{this.props.getCartDetails.grandTotal}</span>
                             
                         </div>
                     </div>
-                    <button className="nextBtn" onClick={this.orderComplete}>Order</button>
+                    <br/>
+                    <button className="nextBtn sizing pageBtn" onClick={this.orderComplete}>Order</button>
                     <br/><br/>
                 </div>
                 <OrderSummaryPopup/>
@@ -246,5 +248,13 @@ const mapStateToProps = (state) => {
         getAppSet: state.getAppSet
     }
 };
- 
-export default connect(mapStateToProps, null)(OrderSummary); 
+const mapDispatchToProps = (dispatch) =>{
+    return{
+        orderComplete: () => {
+            dispatch({
+                type: 'ORDER_COMPLETE', payloads :{}
+            })
+        } 
+   }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(OrderSummary); 

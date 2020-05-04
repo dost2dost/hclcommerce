@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom'; 
 import './category.css';
+import { connect } from "react-redux";
 import Skeleton from '../Skeleton/Skeleton'
 
 class MainCategoryPage extends Component{
@@ -28,7 +29,7 @@ class MainCategoryPage extends Component{
     updateCateCall = (searchString) => { 
         let getSign = searchString.indexOf("&");
         let cateCall = searchString.substring(1,getSign);
-        let goUrl = 'https://192.168.17.91:5443/wcs/resources/store/1/categoryview/byParentCategory/'+cateCall
+        let goUrl = this.props.getAppSet.API.mainCategory+cateCall
         //console.log(goUrl)
          fetch(goUrl)
         .then(res => res.json())
@@ -80,4 +81,10 @@ class MainCategoryPage extends Component{
         }
     }
 }
-export default MainCategoryPage 
+const mapStateToProps = (state) => {
+    return { 
+
+        getAppSet: state.getAppSet
+    }
+};
+export default connect(mapStateToProps,  null)(MainCategoryPage)

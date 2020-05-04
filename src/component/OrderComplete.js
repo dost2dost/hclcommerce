@@ -3,6 +3,7 @@ import './CartPage.css';
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 import { connect } from "react-redux"; 
 import OrderSummaryPopup from './OrderSummaryPopup'
+import { Redirect } from 'react-router-dom'
 import NewAccount from './NewAccount';
 import Home from './Home';
 class OrderComplete extends Component{
@@ -28,15 +29,22 @@ class OrderComplete extends Component{
  
     componentDidMount(props){
         this.setState({products: this.props.getProductsInCart})
-        this.props.emptyCart()
+        //this.props.emptyCart()
       }
+      
+    componentDidUpdate(){
+        //this.props.emptyCart()
+    }
+    componentWillUnmount(){
+
+    }
     gotoMyAccount =() => {
         this.props.orderComplete()
         this.setState({gotoMyAccount: true})
     }
     render(){
         if(this.state.gotoMyAccount){
-            return <Home />
+            return <Redirect to="/"/>
         }
         console.log(this.props.getWCToken+"<<<>>>"+this.props.getWCTrustedToken)
         return(
@@ -59,7 +67,7 @@ class OrderComplete extends Component{
                         </div>
                         <div className="shippAddOptions">
                             <p><b>Shipping Method:</b></p>
-                        
+                            <p>{this.props.getCartDetails.shippingMethod}</p>
                         </div>
                     </div>
                     <table>
@@ -134,13 +142,13 @@ class OrderComplete extends Component{
                         </div>
                         <div className="shippAddOptions">
                         <p><b>Billing Method:</b></p>
-                             
+                             <p>{this.props.getCartDetails.billingMethod}</p>
                             <br/>
                             <b>Amount:</b><br/>
                             <input type="text" value={this.props.getCartDetails.grandTotal}/>
                         </div>
                     </div>
-                    <table><tr>
+                    <table className="orderCompleteContBtn"><tr>
                         <td><button className="nextBtn" onClick={this.gotoMyAccount}>Continue Shopping</button></td>
                         {/* <td><button className="nextBtn" onClick={this.gotoMyAccount}>Continue Shopping</button></td> */}
                         </tr>

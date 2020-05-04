@@ -97,3 +97,8 @@
         box-shadow: 3px 3px 5px #dfdfdf;
     
 }
+.addProductToCart p.addSuccess{
+    background: red;
+    padding: 17px 20px;
+    color: white;
+}

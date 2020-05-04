@@ -38,7 +38,9 @@ class Header extends Component{
             else{this.setState({searchStart: false, searchItems: []})}
            
        }      
-      
+       closeSearch = () => {
+           this.setState({searchStart: false})
+       }
        logOutUser = (event) => {// call this function on logOut button
         fetch(this.props.getAppSet.API.userLogout, {
             method: 'DELETE' 
@@ -119,7 +121,7 @@ class Header extends Component{
                 <a className="searchBtn" href="">Search</a>
             <div className="autoSuggest">{
                 this.state.searchStart ? <ul> {this.state.searchItems.suggestionView[0].entry.map(srch => (
-                        <li key={srch.frequency}><Link to={`lk`}>{srch.term}</Link></li>
+                        <li key={srch.frequency}><Link to={`/Search/?search=${srch.term}`} onClick={this.closeSearch}>{srch.term}</Link></li>
                     ))}</ul>
                     : null
             }</div>

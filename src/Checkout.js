@@ -21,7 +21,9 @@ class Checkout extends Component{
             billingAddDetails: [],
             addressId: '',
             addCountry: '',
-            redirectToSummaryPage: false
+            redirectToSummaryPage: false,
+            shipDetails: '',
+            billDetails:'',
         }
     }
     componentDidMount(props){
@@ -97,6 +99,15 @@ class Checkout extends Component{
             console.log( "Error Data>>"+error);
         });
     }
+    handlerShipValue = (event) =>{
+        this.setState({ shipDetails : event.target.value});  
+        
+        console.log(event.target.value)
+    }
+    handlerBillValue = (event) =>{
+        this.setState({ billDetails : event.target.value}); 
+        console.log(event.target.value) 
+    }
     gotoSummary = () => {//paymentInstructions
         const payloads = {
             "billing_address_id": this.state.addressId,
@@ -121,8 +132,8 @@ class Checkout extends Component{
         })
         .then(res=>res.json())
         .then((data)=>{
-            console.log(data)
-            this.props.otherDetails(this.state.billAndShip, this.state.shippingAddDetails, this.state.billingAddDetails, this.state.addressId, this.state.addCountry, data.paymentInstruction[0].piId, data.orderId)
+            console.log(this.state.shipDetails+'---'+this.state.billDetails)
+            this.props.otherDetails(this.state.billAndShip, this.state.shipDetails, this.state.billDetails, this.state.addressId, this.state.addCountry, data.paymentInstruction[0].piId, data.orderId)
             
             //this.props.removeFromCart(data.orderId, removeProduct)
              this.setState({redirectToSummaryPage: true})
@@ -159,9 +170,9 @@ class Checkout extends Component{
                         </div>
                         <div className="shippAddOptions">
                             <p><b>Shipping Method:</b></p>
-                            <select>
+                            <select name = "shipDetails" onChange={this.handlerShipValue}>
                                 {this.state.shippingAddDetails.map(item => (
-                                <option value={item.shipModeId} key={item.shipModeId}>{item.description}</option>    
+                                <option value={item.description} key={item.shipModeId}>{item.description}</option>    
                                 ))}
                             </select>
                         </div>
@@ -188,7 +199,7 @@ class Checkout extends Component{
                             <td className="description">
                                 <Link to={`/Product/?${item.uniqueID}`}>  {item.longDescription}</Link>
                                 <br/>
-                                <button onClick={this.removeItem.bind(this, 
+                                <button className="nextBtn sizing" onClick={this.removeItem.bind(this, 
                                     item.SKUUniqueID, 
                                     item.orderItemId, 
                                     this.props.getOrderId,
@@ -241,9 +252,9 @@ class Checkout extends Component{
                         </div>
                         <div className="shippAddOptions">
                         <p><b>Billing Method:</b></p>
-                            <select>
+                            <select name = "shipDetails" onChange={this.handlerBillValue}>
                                 {this.state.billingAddDetails.map(item => (
-                                <option value={item.paymentMethodName} key={item.xumet_policyId}>{item.description}</option>    
+                                <option value={item.description} key={item.xumet_policyId}>{item.description}</option>    
                                 ))}
                             </select>
                             <br/>
@@ -253,7 +264,7 @@ class Checkout extends Component{
                     </div>
                     <br/>
                         {/* <Link className="nextBtn" to="/Checkout/">Next</Link> <br/> */}
-                        <button className="nextBtn" onClick={this.gotoSummary}>Next</button>
+                        <button className="nextBtn sizing pageBtn" onClick={this.gotoSummary}>Next</button>
                 </div>
                 <OrderSummaryPopup/>
 

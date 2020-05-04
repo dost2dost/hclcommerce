@@ -189,8 +189,10 @@ class CartPage extends Component{
         let checkCustomer = ''
         if(this.props.getResourceName === 'loginidentity' || this.props.getResourceName === 'person'){
             checkCustomer = (
+               <> <div class="clearBoth"></div>
                 <Link className="nextBtn" to="/Checkout/">Checkout</Link>
-                
+                <br/><br/>
+                </>
             )
         console.log(this.props.getWCToken+"<<<"+this.props.getResourceName+">>>"+this.props.getWCTrustedToken)
         }
@@ -232,7 +234,7 @@ class CartPage extends Component{
                             <td className="description">
                                 <Link to={`/Product/?${item.uniqueID}`}>  {item.longDescription}</Link>
                                 <br/>
-                                <button onClick={this.removeItem.bind(this, 
+                                <button className="nextBtn sizing" onClick={this.removeItem.bind(this, 
                                     item.SKUUniqueID, 
                                     item.orderItemId, 
                                     this.props.getOrderId,

@@ -20,6 +20,7 @@ import Checkout from './Checkout';
 import OrderSummary from './component/OrderSummary'
 import OrderComplete from "./component/OrderComplete";
 import PaymentMethod from './component/PaymentMethod';
+import Search from './component/Search';
 import {connect} from 'react-redux';
 import logOutUser from './component/LogOut'
 
@@ -48,8 +49,10 @@ function App(props) {
             <Route path="/VRex" component={VRex}/> 
             <Route path="/VRModel" component={VRModel}/> 
             <Route path="/LeftMenu" component={LeftMenu}/>
+            <Route path="/Search" component={Search}/>
             <Route path="/Category" component={Category}/>
-            <Route path="/SubCategory" component={SubCategory}/> 
+            {/* <Route path="/SubCategory" component={SubCategory}/>  */}
+            
             <Route path="/CartPage" component={CartPage}/>
             <Route path="/Checkout" component={Checkout}/>
             <Route path="/PaymentMethod" component={PaymentMethod}/>

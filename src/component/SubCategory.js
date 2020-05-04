@@ -1,6 +1,7 @@
 import React, {Component}  from 'react';
 import { parse } from 'query-string';
-import {BrowserRouter as Router, Route, Link} from 'react-router-dom'; 
+import {BrowserRouter as Router, Route, Link,} from 'react-router-dom'; 
+import { connect } from "react-redux";
 import ReactDOM from 'react-dom'; 
 import LeftMenu from './LeftMenu';
 import queryString from 'querystring'
@@ -39,7 +40,7 @@ class SubCategory extends Component{
     getDataFromServer = (getCat) => { 
         
         this.setState({loaderActive:'<div><img width="300" height="200" src="/Images/loader.gif"/></div>'}) 
-        let getUrl = `https://192.168.17.91:5443/wcs/resources/store/1/productview/byCategory/${getCat}`
+        let getUrl = this.props.getAppSet.API.productById+getCat
         //`https://192.168.17.91:5443/wcs/resources/store/1/categoryview/byParentCategory/5`  
         fetch(getUrl) 
         .then(res => res.json(
@@ -75,7 +76,7 @@ class SubCategory extends Component{
                             <div className="product" key={insideItems.uniqueID}>
                                 <div className="name">
                                 <Link to={`/Product/?${insideItems.uniqueID}`}>
-                                    <div className="name"><img alt = {insideItems.name} src={`https://192.168.17.91:8443${insideItems.thumbnail}`} /></div>
+                                    <div className="name"><img alt = {insideItems.name} src={`${this.props.getAppSet.serverBaseURL}${insideItems.thumbnail}`} /></div>
                                 </Link>
                                 </div>
                                 <div className="person">{insideItems.name}</div> 
@@ -98,5 +99,9 @@ class SubCategory extends Component{
         }
 }
 }
- 
-export default SubCategory;
+const mapStateToProps = (state) => {
+    return { 
+        getAppSet: state.getAppSet
+    }
+};
+export default connect(mapStateToProps, null)(SubCategory);

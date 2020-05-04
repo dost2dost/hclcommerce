@@ -8,6 +8,9 @@ const appState ={
 
     API : 
         {
+        mainCategory:   'https://192.168.17.91:5443/wcs/resources/store/1/categoryview/byParentCategory/',
+        productByParentCate: 'https://192.168.17.91:5443/wcs/resources/store/1/categoryview/byParentCategory/',
+        productById: 'https://192.168.17.91:5443/wcs/resources/store/1/productview/byCategory/',
         guestLogin: 'https://192.168.17.91:5443/wcs/resources/store/1/guestidentity',
         userLogin: 'https://192.168.17.91:5443/wcs/resources/store/1/loginidentity?responseFormat=json',
         userLogout: 'https://192.168.17.91:5443/wcs/resources/store/1/loginidentity/@self',
@@ -23,9 +26,10 @@ const appState ={
         billingMethods: 'https://192.168.17.91:5443/wcs/resources/store/1/cart/@self/usable_payment_info',
         paymentInstructions: 'https://192.168.17.91:5443/wcs/resources/store/1/cart/@self/payment_instruction',
         orderLock: 'https://192.168.17.91:5443/wcs/resources/store/1/cart/',
-        preCheckout: 'https://@192.168.17.91:5443/wcs/resources/store/1/cart/@self/precheckout',
+        preCheckout: 'https://192.168.17.91:5443/wcs/resources/store/1/cart/@self/precheckout',
         checkout: 'https://192.168.17.91:5443/wcs/resources/store/1/cart/@self/checkout?responseFormat=json',
-        orderApi: 'https://192.168.17.91:5443/wcs/resources/store/1/order/'
+        orderApi: 'https://192.168.17.91:5443/wcs/resources/store/1/order/',
+        searchTerm: 'https://192.168.17.91:5443/wcs/resources/store/1/productview/bySearchTerm/'
 
     }
     
@@ -38,3 +42,32 @@ const appSettings = (getAppSettings = appState, action) =>{
     return getAppSettings;
 }
 export default appSettings;
+
+
+// let store = 1;
+// let wcsURL = 'https://@192.168.17.91:5443/wcs';
+// let searchURL = 'http://192.168.17.91:3737/search';
+// appState.API = {
+//     mainCategory:   `${wcsURL}/resources/store/${store}/categoryview/byParentCategory/`,
+//     productByParentCate: `${wcsURL}/resources/store/${store}/categoryview/byParentCategory/`,
+//     productById: `${wcsURL}/resources/store/${store}/productview/byCategory/`,
+//     guestLogin: `${wcsURL}/resources/store/${store}/guestidentity`,
+//     userLogin: `${wcsURL}/resources/store/${store}/loginidentity?responseFormat=json`,
+//     userLogout: `${wcsURL}/resources/store/${store}/loginidentity/@self`,
+//     newRegistration: `${wcsURL}/resources/store/${store}/person`,
+//     searchMenuUrl:`${searchURL}/resources/store/${store}/categoryview/@top?depthAndLimit=*`,
+//     cartDetails: `${wcsURL}/resources/store/${store}/cart/@self`,
+//     addToCartUrl: `${wcsURL}/resources/store/${store}/cart?responseFormat=json`,
+//     deleteFromCart: `${wcsURL}/resources/store/${store}/cart/@self/delete_order_item`,
+//     productViewById: `${wcsURL}/resources/store/${store}/productview/byId/`,
+//     autoSuggest: `${searchURL}/search/resources/store/${store}/sitecontent/keywordSuggestionsByTerm/`,
+//     billAndShipUserInfo: `${wcsURL}/resources/store/${store}/person/@self`,
+//     shippingMethods: `${wcsURL}/resources/store/${store}/cart/@self/usable_shipping_info`,
+//     billingMethods: `${wcsURL}/resources/store/${store}/cart/@self/usable_payment_info`,
+//     paymentInstructions: `${wcsURL}/resources/store/${store}/cart/@self/payment_instruction`,
+//     orderLock: `${wcsURL}/resources/store/${store}/cart/`,
+//     preCheckout: `${wcsURL}/wcs/resources/store/${store}/cart/@self/precheckout`,
+//     checkout: `${wcsURL}/resources/store/${store}/cart/@self/checkout?responseFormat=json`,
+//     orderApi: `${wcsURL}/resources/store/${store}/order/`,
+
+// }

@@ -82,7 +82,7 @@ h2{
     text-align: right;
     padding: 5px 0px 10px 0px;
 }
-.summary div table tr:nth-child(3) td{
+.summary div table tr:nth-child(4) td{
     font-weight: bold;
     border-top: 1px solid #d7d7d7;
     padding: 10px 0px 5px 0px;
@@ -118,4 +118,12 @@ h2{
 .orderComplete p{
     text-align: left;
     margin-left: 1.5%;
+}
+.sizing{
+    width: 30% !important;
+    border: 1px solid red;
+    padding: 0px !important;
+}
+.pageBtn{
+    padding: 15px !important;
 }

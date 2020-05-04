@@ -107,3 +107,17 @@
 .CategoryPage .menuHolder{
     margin-bottom: 50px;
 }
+.searchHeading{
+    text-align: left;
+    margin-left: 15px;
+    font-size: 35px;
+}
+.orderCompleteContBtn{
+    width: 100%;
+}
+.orderCompleteContBtn .nextBtn{
+    width: 20%;
+    padding: 15px;
+    float: right;
+    border: 1px solid red;
+}

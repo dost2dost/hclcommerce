@@ -14,11 +14,13 @@ const iState ={
     addressId: '',
     addCountry: '',
     piId: '',
-    billAndShipAddDetails: ''
+    billAndShipAddDetails: '',
+
+    orderComplete: ''
 }
 
 const addToCart = (state = iState, action) =>{
-   // console.log(state.products)
+    //console.log(state)
     if(action.type === 'ADD_CART'){
         return{
             ...state, 
@@ -75,6 +77,7 @@ const addToCart = (state = iState, action) =>{
         }
     }
     if(action.type === 'OTHER_CART_DETAILS'){
+        console.log(action.payloads.shippingAddDetails+'---'+action.payloads.billingAddDetails)
         return{ //shippingAddDetails, billingAddDetails, addressId, addCountry, piId, orderId
             ...state,
             billAndShipAddDetails: action.payloads.billAndShipAddDetails,
@@ -87,6 +90,15 @@ const addToCart = (state = iState, action) =>{
         }
     }
     if(action.type === 'ORDER_COMPLETE'){
+        let orderComplete = state.products
+        console.log(orderComplete)
+        return{
+            ...state,
+            piId: orderComplete, 
+            cartQuantity: 0,  
+        }
+    }
+    if(action.type === 'EMPTY_CART'){
         return{
             products: [],
             orderId: '',
@@ -102,12 +114,6 @@ const addToCart = (state = iState, action) =>{
             addCountry: '',
             piId: '',
             billAndShipAddDetails: ''
-        }
-    }
-    if(action.type === 'EMPTY_CART'){
-        return{
-            ...state,
-            cartQuantity: 0
         }
     }
     return state;

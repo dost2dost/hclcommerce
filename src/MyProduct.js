@@ -119,7 +119,7 @@ class MyProduct extends Component{
         if(this.state.successOrder){
             popup = (
                 <div className="addProductToCart" onClick={this.closePopup.bind(this, null)}>
-                    <p>Item Successfully Added</p>
+                    <p className="addSuccess">Item Successfully Added</p>
                    { [items].map(item => (  
                         item.CatalogEntryView.map(item => (  
                     <div className="eachProduct"  key={item.uniqueID}>
