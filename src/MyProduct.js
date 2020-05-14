@@ -6,6 +6,13 @@ import ProdSkeleton from './Skeleton/ProductSkeleton'
 import ShoppingCart from './component/ShoppingCart'
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom'; 
 import {connect } from 'react-redux'
+import  {useSelector,useDispatch} from 'react-redux'
+import {productidaction} from './ReduxActions/MainActions'
+
+function usePid(pid=5){
+    const[pidd,setpid]=useDispatch(productidaction(pid))
+    return [pidd];
+}
 class MyProduct extends Component{
     constructor(props){
         super(props);
@@ -16,16 +23,21 @@ class MyProduct extends Component{
             classCall : 'addProductToCartNone',
             forwaredVals :  '',
             orderId: '',
-            successOrder: false
+            successOrder: false,
+            productId:'',
+            
         }
     }
+    
     getSearch = (event) =>{
         this.setState ({quntity : event.target.value});
     }
     componentDidMount(props){
         console.log(this.props.getResourceName)
+        
         this.setState ({
             isLoaded: false,
+            productId:this.props.location.search.substring(1.1)
         })
          const { handle } = this.props.location.search;
         
@@ -112,7 +124,10 @@ class MyProduct extends Component{
     showPopup =() =>{
         this.showClass ="addProductToCart"
     }
+   
     render(){
+        const pidd=this.state.productId;
+        console.log("gh"+this.state.productId)
         var { isLoaded, items } =this.state;
         let popup = '';
         popup = (null)
@@ -164,8 +179,9 @@ class MyProduct extends Component{
                                     </div>
                                 <div className="txtDescription">
                                     <div className="vrAr">
-                                    <Link  className="vrLink" to={`/VRModel/?${this.props.location.search.substring(1.1)}`} >VR Model</Link> 
-                                    <Link  className="arLink" to={`/VRex`} >AR Access</Link>
+                                    
+                                    <Link  className="vrLink"   to={{ pathname:'/VRModel', pid:{myval:this.state.productId}}} >VR Model</Link> 
+                                    <Link  className="arLink"  to={{ pathname:'/VRex', pid:{myval:this.state.productId}}} >AR Access</Link>
                                 </div>
                                 <div className="description">
                                     {insideItems.longDescription===undefined ? ' ' : insideItems.longDescription}

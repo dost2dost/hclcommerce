@@ -1,16 +1,28 @@
 //import 'aframe';
 //import { Scene, Entity } from 'aframe-react';
+import {Link } from 'react-router-dom';
 import React from 'react';
 import './VRex.css';
+//import '../component/css/MyStyle.css'
 
- 
-function VREx() {
+
+function VREx(props) {
+const productId=props.location.pid.myval;
+const modelurl="Images/thredmodels/"+productId+".glb"
   return (
     <div className="vrEx">
- <a-scene>
-  <a-entity gltf-model="Images/SunGlasses.gltf" scale="20 15 17"  position="2 1 -10" >
+      <Link  to={`/Product/?`+productId}>Go Back
+      
+      </Link>
+      <div>
+      
+ <a-scene >
+ 
+  <a-entity gltf-model={modelurl} scale="0.1 0.1 0.1"  position="2 2 -10" >
      </a-entity>
     </a-scene> 
+  
+    </div>
     </div>
     );
 }

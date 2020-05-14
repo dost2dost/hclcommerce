@@ -46,8 +46,8 @@ function App(props) {
             {/* <Route path="/logOutUser" component={logOutUser}/>  */}
             <Route path="/NewAccount" component={NewAccount}/> 
             <Route path="/Product" component={Product}/> 
-            <Route path="/VRex" component={VRex}/> 
-            <Route path="/VRModel" component={VRModel}/> 
+            <Route path="/VRex" component={VRex}/>}/> 
+            <Route path="/VRModel" render={(props) => <VRModel id='25' {...props}/>}/> 
             <Route path="/LeftMenu" component={LeftMenu}/>
             <Route path="/Search" component={Search}/>
             <Route path="/Category" component={Category}/>
